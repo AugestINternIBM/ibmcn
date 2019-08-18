@@ -74,7 +74,6 @@ public class UserInterface {
 	private FileNameExtensionFilter txtFilter = new FileNameExtensionFilter("Text files", "txt");
 
 	public static void main(String[] args) {
-		System.out.println("test2");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

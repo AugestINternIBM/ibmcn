@@ -89,6 +89,8 @@ public class Parser {
 		}
 	}
 
+	
+	
 	private boolean initContract() {
 		this.contract = new Contract();
 
@@ -177,6 +179,20 @@ public class Parser {
 //		}
 		
 		//this.contract.setPv(pv);
+		/**adding recently update**/
+		if(this.row.getCell(this.columnsHeaderMap.get("Customer Name")) != null){
+			if(this.row.getCell(this.columnsHeaderMap.get("Customer Name")).toString().contains("Sales Order")){
+				return false;
+			}
+		}
+		if(this.row.getCell(this.columnsHeaderMap.get("BL Status")) != null ){
+			if(this.row.getCell(this.columnsHeaderMap.get("BL Status")).toString().equals("Eroded")||
+					this.row.getCell(this.columnsHeaderMap.get("BL Status")).toString().equals("Closed")){
+		
+			return false;
+		}
+		}		
+		/***/	
 		
 		if (this.row.getCell(this.columnsHeaderMap.get("Bcklg (k$)")) == null||
 				this.row.getCell(this.columnsHeaderMap.get("Bcklg (k$)")).toString().equals("")) {
@@ -227,8 +243,7 @@ public class Parser {
 		if(this.row.getCell(this.columnsHeaderMap.get("Div")) != null &&!(this.row.getCell(this.columnsHeaderMap.get("Div")).toString().contains("7H")||
 				this.row.getCell(this.columnsHeaderMap.get("Div")).toString().contains("K4")||
 				this.row.getCell(this.columnsHeaderMap.get("Div")).toString().contains("7G")||
-				this.row.getCell(this.columnsHeaderMap.get("Div")).toString().contains("8E"))||
-				this.row.getCell(this.columnsHeaderMap.get("Div")).toString().equals("")){
+				this.row.getCell(this.columnsHeaderMap.get("Div")).toString().contains("8E"))){
 			return false;
 
 		}

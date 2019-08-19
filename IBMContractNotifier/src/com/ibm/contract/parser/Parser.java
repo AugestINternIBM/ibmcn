@@ -89,6 +89,8 @@ public class Parser {
 		}
 	}
 
+	
+	
 	private boolean initContract() {
 		this.contract = new Contract();
 
@@ -172,6 +174,20 @@ public class Parser {
 		}
 		
 		//this.contract.setPv(pv);
+		/**adding recently update**/
+		if(this.row.getCell(this.columnsHeaderMap.get("Customer Name")) != null){
+			if(this.row.getCell(this.columnsHeaderMap.get("Customer Name")).toString().contains("Sales Order")){
+				return false;
+			}
+		}
+		if(this.row.getCell(this.columnsHeaderMap.get("BL Status")) != null ){
+			if(this.row.getCell(this.columnsHeaderMap.get("BL Status")).toString().equals("Eroded")||
+					this.row.getCell(this.columnsHeaderMap.get("BL Status")).toString().equals("Closed")){
+		
+			return false;
+		}
+		}		
+		/***/	
 		
 		if (this.row.getCell(this.columnsHeaderMap.get("Backlog")) == null||
 				this.row.getCell(this.columnsHeaderMap.get("Backlog")).toString().equals("")) {
@@ -215,8 +231,7 @@ public class Parser {
 		if(this.row.getCell(this.columnsHeaderMap.get("Div Code")) != null &&!(this.row.getCell(this.columnsHeaderMap.get("Div Code")).toString().equals("7H")||
 				this.row.getCell(this.columnsHeaderMap.get("Div Code")).toString().equals("K4")||
 				this.row.getCell(this.columnsHeaderMap.get("Div Code")).toString().equals("7G")||
-				this.row.getCell(this.columnsHeaderMap.get("Div Code")).toString().equals("8E"))||
-				this.row.getCell(this.columnsHeaderMap.get("Div Code")).toString().equals("")){
+				this.row.getCell(this.columnsHeaderMap.get("Div Code")).toString().equals("8E"))){
 			return false;
 
 		}

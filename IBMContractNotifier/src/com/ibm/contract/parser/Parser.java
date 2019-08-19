@@ -89,8 +89,6 @@ public class Parser {
 		}
 	}
 
-	
-	
 	private boolean initContract() {
 		this.contract = new Contract();
 
@@ -103,82 +101,78 @@ public class Parser {
 			this.contract.setAccoundID(this.row.getCell(this.columnsHeaderMap.get("AccountID")).toString());
 		}
 
-		if (this.row.getCell(this.columnsHeaderMap.get("TCV (k$)")) == null||
-				this.row.getCell(this.columnsHeaderMap.get("TCV (k$)")).toString().equals("")) {
+		if (this.row.getCell(this.columnsHeaderMap.get("TCV")) == null||
+				this.row.getCell(this.columnsHeaderMap.get("TCV")).toString().equals("")) {
 			return false;
 		} else {
-			String tcvValue=this.row.getCell(this.columnsHeaderMap.get("TCV (k$)")).toString();
-			this.contract.setTcv(Double.parseDouble(tcvValue));
+			this.contract.setTcv(this.row.getCell(this.columnsHeaderMap.get("TCV")).getNumericCellValue());
 		}
 		
 		// TODO : Bind pv columns
-		Double[] pv = new Double[4];
-		if (this.row.getCell(this.columnsHeaderMap.get("PV Q1")) == null) {
+		Double[] pv = new Double[12];
+		if (this.row.getCell(this.columnsHeaderMap.get("PV_01")) == null) {
 			return false;
 		} else {
-			String pv1 = this.row.getCell(this.columnsHeaderMap.get("PV Q1")).toString();
-			pv[0] = Double.parseDouble(pv1);
+			pv[0] = this.row.getCell(this.columnsHeaderMap.get("PV_01")).getNumericCellValue();
 		}
-		if (this.row.getCell(this.columnsHeaderMap.get("PV Q2")) == null) {
+		if (this.row.getCell(this.columnsHeaderMap.get("PV_02")) == null) {
 			return false;
 		} else {
-			String pv2 = this.row.getCell(this.columnsHeaderMap.get("PV Q2")).toString();
-			pv[1] = Double.parseDouble(pv2);
+			pv[1] = this.row.getCell(this.columnsHeaderMap.get("PV_02")).getNumericCellValue();
 		}
-		if (this.row.getCell(this.columnsHeaderMap.get("PV Q3")) == null) {
+		if (this.row.getCell(this.columnsHeaderMap.get("PV_03")) == null) {
 			return false;
 		} else {
-			String pv3 = this.row.getCell(this.columnsHeaderMap.get("PV Q3")).toString();
-			pv[2] = Double.parseDouble(pv3);
+			pv[2] = this.row.getCell(this.columnsHeaderMap.get("PV_03")).getNumericCellValue();
 		}
-		if (this.row.getCell(this.columnsHeaderMap.get("PV Q4")) == null) {
+		if (this.row.getCell(this.columnsHeaderMap.get("PV_04")) == null) {
 			return false;
 		} else {
-			String pv4 = this.row.getCell(this.columnsHeaderMap.get("PV Q4")).toString();
-			pv[3] = Double.parseDouble(pv4);
+			pv[3] = this.row.getCell(this.columnsHeaderMap.get("PV_04")).getNumericCellValue();
 		}
-//		if (this.row.getCell(this.columnsHeaderMap.get("PV_05")) == null) {
-//			return false;
-//		} else {
-//			pv[4] = this.row.getCell(this.columnsHeaderMap.get("PV_05")).getNumericCellValue();
-//		}
-//		if (this.row.getCell(this.columnsHeaderMap.get("PV_06")) == null) {
-//			return false;
-//		} else {
-//			pv[5] = this.row.getCell(this.columnsHeaderMap.get("PV_06")).getNumericCellValue();
-//		}
-//		if (this.row.getCell(this.columnsHeaderMap.get("PV_07")) == null) {
-//			return false;
-//		} else {
-//			pv[6] = this.row.getCell(this.columnsHeaderMap.get("PV_07")).getNumericCellValue();
-//		}
-//		if (this.row.getCell(this.columnsHeaderMap.get("PV_08")) == null) {
-//			return false;
-//		} else {
-//			pv[7] = this.row.getCell(this.columnsHeaderMap.get("PV_08")).getNumericCellValue();
-//		}
-//		if (this.row.getCell(this.columnsHeaderMap.get("PV_09")) == null) {
-//			return false;
-//		} else {
-//			pv[8] = this.row.getCell(this.columnsHeaderMap.get("PV_09")).getNumericCellValue();
-//		}
-//		if (this.row.getCell(this.columnsHeaderMap.get("PV_10")) == null) {
-//			return false;
-//		} else {
-//			pv[9] = this.row.getCell(this.columnsHeaderMap.get("PV_10")).getNumericCellValue();
-//		}
-//		if (this.row.getCell(this.columnsHeaderMap.get("PV_11")) == null) {
-//			return false;
-//		} else {
-//			pv[10] = this.row.getCell(this.columnsHeaderMap.get("PV_11")).getNumericCellValue();
-//		}
-//		if (this.row.getCell(this.columnsHeaderMap.get("PV_12")) == null) {
-//			return false;
-//		} else {
-//			pv[11] = this.row.getCell(this.columnsHeaderMap.get("PV_12")).getNumericCellValue();
-//		}
+		if (this.row.getCell(this.columnsHeaderMap.get("PV_05")) == null) {
+			return false;
+		} else {
+			pv[4] = this.row.getCell(this.columnsHeaderMap.get("PV_05")).getNumericCellValue();
+		}
+		if (this.row.getCell(this.columnsHeaderMap.get("PV_06")) == null) {
+			return false;
+		} else {
+			pv[5] = this.row.getCell(this.columnsHeaderMap.get("PV_06")).getNumericCellValue();
+		}
+		if (this.row.getCell(this.columnsHeaderMap.get("PV_07")) == null) {
+			return false;
+		} else {
+			pv[6] = this.row.getCell(this.columnsHeaderMap.get("PV_07")).getNumericCellValue();
+		}
+		if (this.row.getCell(this.columnsHeaderMap.get("PV_08")) == null) {
+			return false;
+		} else {
+			pv[7] = this.row.getCell(this.columnsHeaderMap.get("PV_08")).getNumericCellValue();
+		}
+		if (this.row.getCell(this.columnsHeaderMap.get("PV_09")) == null) {
+			return false;
+		} else {
+			pv[8] = this.row.getCell(this.columnsHeaderMap.get("PV_09")).getNumericCellValue();
+		}
+		if (this.row.getCell(this.columnsHeaderMap.get("PV_10")) == null) {
+			return false;
+		} else {
+			pv[9] = this.row.getCell(this.columnsHeaderMap.get("PV_10")).getNumericCellValue();
+		}
+		if (this.row.getCell(this.columnsHeaderMap.get("PV_11")) == null) {
+			return false;
+		} else {
+			pv[10] = this.row.getCell(this.columnsHeaderMap.get("PV_11")).getNumericCellValue();
+		}
+		if (this.row.getCell(this.columnsHeaderMap.get("PV_12")) == null) {
+			return false;
+		} else {
+			pv[11] = this.row.getCell(this.columnsHeaderMap.get("PV_12")).getNumericCellValue();
+		}
 		
 		//this.contract.setPv(pv);
+		
 		/**adding recently update**/
 		if(this.row.getCell(this.columnsHeaderMap.get("Customer Name")) != null){
 			if(this.row.getCell(this.columnsHeaderMap.get("Customer Name")).toString().contains("Sales Order")){
@@ -194,12 +188,12 @@ public class Parser {
 		}		
 		/***/	
 		
-		if (this.row.getCell(this.columnsHeaderMap.get("Bcklg (k$)")) == null||
-				this.row.getCell(this.columnsHeaderMap.get("Bcklg (k$)")).toString().equals("")) {
+		
+		if (this.row.getCell(this.columnsHeaderMap.get("Backlog")) == null||
+				this.row.getCell(this.columnsHeaderMap.get("Backlog")).toString().equals("")) {
 			return false;
 		} else {
-			String blVal = this.row.getCell(this.columnsHeaderMap.get("Bcklg (k$)")).toString();
-			this.contract.setBackLog(Double.parseDouble(blVal));
+			this.contract.setBackLog(this.row.getCell(this.columnsHeaderMap.get("Backlog")).getNumericCellValue());
 		}
 		
 		String[] candidates = this.contract.getAccoundID().split(",");
@@ -215,44 +209,37 @@ public class Parser {
 		this.contract.setNumberOfFeedbacks(count);
 
 		int month = Calendar.getInstance().get(Calendar.MONTH);
-		int cPV = ((month-1)/4)-1;
-		this.contract.setCurrentPv(pv[cPV]);
-//		if(cPV == -1){
-//			this.contract.setCurrentPv(pv[month-1]);
-//		}else {
-//			this.contract.setCurrentPv(pv[cPV]);
-//		}
-
+		
+		this.contract.setCurrentPv(pv[month-1]);
 		
 		
 		/////////////////////////////////////////////////////////
-		int year = Calendar.getInstance().get(Calendar.YEAR);
+		double year = (double)Calendar.getInstance().get(Calendar.YEAR);
 
-		if (this.row.getCell(this.columnsHeaderMap.get("Year")) != null && Integer.parseInt(this.row.getCell(this.columnsHeaderMap.get("Year")).toString()) != year||
-				this.row.getCell(this.columnsHeaderMap.get("Year")).toString().equals("")){
+		if (this.row.getCell(this.columnsHeaderMap.get("Yr")) != null &&this.row.getCell(this.columnsHeaderMap.get("Yr")).getNumericCellValue() != year||
+				this.row.getCell(this.columnsHeaderMap.get("Yr")).toString().equals("")){
 			return false;
 
 		} 
 		
-		if(this.row.getCell(this.columnsHeaderMap.get("IOT")) != null &&!(this.row.getCell(this.columnsHeaderMap.get("IOT")).toString().equals("MEA"))||
-				this.row.getCell(this.columnsHeaderMap.get("IOT")).toString().equals("")){
+		if(this.row.getCell(this.columnsHeaderMap.get("IMT")) != null &&!(this.row.getCell(this.columnsHeaderMap.get("IMT")).toString().equals("MEA"))||
+				this.row.getCell(this.columnsHeaderMap.get("IMT")).toString().equals("")){
 			return false;
 
 		}
 		
-		if(this.row.getCell(this.columnsHeaderMap.get("Div")) != null &&!(this.row.getCell(this.columnsHeaderMap.get("Div")).toString().contains("7H")||
-				this.row.getCell(this.columnsHeaderMap.get("Div")).toString().contains("K4")||
-				this.row.getCell(this.columnsHeaderMap.get("Div")).toString().contains("7G")||
-				this.row.getCell(this.columnsHeaderMap.get("Div")).toString().contains("8E"))){
+		if(this.row.getCell(this.columnsHeaderMap.get("Div Code")) != null &&!(this.row.getCell(this.columnsHeaderMap.get("Div Code")).toString().equals("7H")||
+				this.row.getCell(this.columnsHeaderMap.get("Div Code")).toString().equals("K4")||
+				this.row.getCell(this.columnsHeaderMap.get("Div Code")).toString().equals("7G")||
+				this.row.getCell(this.columnsHeaderMap.get("Div Code")).toString().equals("8E"))){
 			return false;
 
 		}
 		
 		/*not checked*/
 		//System.out.println();
-		if(this.row.getCell(this.columnsHeaderMap.get("Signing Prob %")) != null && (!(this.row.getCell(this.columnsHeaderMap.get("Signing Prob %")).toString().equals("1.0"))||
-				!(this.row.getCell(this.columnsHeaderMap.get("Signing Prob %")).toString().equals("signed"))||
-				this.row.getCell(this.columnsHeaderMap.get("Signing Prob %")).toString().equals(""))){
+		if(this.row.getCell(this.columnsHeaderMap.get("SignProbability")) != null && (!(this.row.getCell(this.columnsHeaderMap.get("SignProbability")).toString().equals("1.0"))||
+				this.row.getCell(this.columnsHeaderMap.get("SignProbability")).toString().equals(""))){
 			return false;
 
 		}

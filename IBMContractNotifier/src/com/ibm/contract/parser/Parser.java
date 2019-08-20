@@ -179,13 +179,17 @@ public class Parser {
 				return false;
 			}
 		}
+		/*
 		if(this.row.getCell(this.columnsHeaderMap.get("BL Status")) != null ){
 			if(this.row.getCell(this.columnsHeaderMap.get("BL Status")).toString().equals("Eroded")||
 					this.row.getCell(this.columnsHeaderMap.get("BL Status")).toString().equals("Closed")){
 		
 			return false;
 		}
-		}		
+		}
+		*/
+		
+		
 		/***/	
 		
 		

@@ -16,5 +16,4 @@ this.comparison_type=comparison_type;
 this.include=include;
 this.values=values;
 }
-
 }

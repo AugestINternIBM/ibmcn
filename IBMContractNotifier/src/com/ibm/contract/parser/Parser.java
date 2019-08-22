@@ -144,7 +144,7 @@ public class Parser {
                 return false;
             }
             String strVal = val.toString();
-            if (filtersArr.get(i).values.length == 0){
+            if (filtersArr.get(i).values.length == 0 || (filtersArr.get(i).values.length == 1 && filtersArr.get(i).values[0] == null)){
                 addContractData(filtersArr.get(i).field_name);
             } else if (filtersArr.get(i).include) {
                 if (contains(filtersArr.get(i).values, strVal, filtersArr.get(i).comparison_type)){

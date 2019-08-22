@@ -378,7 +378,7 @@ public class UserInterface {
 								+ "Please check connection to the server and try again.", "Error 404!" ,JOptionPane.ERROR_MESSAGE);
 					} catch (ServiceException e1) {
 						JOptionPane.showMessageDialog(null,"Connection to server failed! \n"
-								+ "Please check connection to the serverand try again", "Error 404!" ,JOptionPane.ERROR_MESSAGE);
+								+ "Please check connection to the server and try again", "Error 404!" ,JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}

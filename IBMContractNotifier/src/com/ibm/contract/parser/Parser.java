@@ -44,7 +44,6 @@ public class Parser {
     public List getContractListFromExcel(String FILE_PATH , Map<String, Feedback> feedbackMap) {
 
         this.feedbackMap = feedbackMap;
-        initFiltersArr();
 
         try {
             this.fileInputStream = new FileInputStream(FILE_PATH);
@@ -91,23 +90,6 @@ public class Parser {
                 this.columnsHeaderMap.put((this.sheet.getRow(0).getCell(j).toString()), j);
             }
         }
-    }
-//TODO: add function to fill the filters array
-    private void initFiltersArr(){
-    	String [] a1 = {"7H", "K4", "7G", "8E"};
-        this.filtersArr.add(new FilterRule("Div Code", "equal", a1,true));
-        String [] a2 = {"sales order"};
-        this.filtersArr.add(new FilterRule("OppName", "contain", a2, false));
-        String [] a3 = {"1.0"};
-        this.filtersArr.add(new FilterRule("SignProbability", "equal", a3, true));
-        String [] a4 = {"MEA"};
-        this.filtersArr.add(new FilterRule("IMT", "equal", a4,true));
-        String [] a5 = {"TBD"};
-        this.filtersArr.add(new FilterRule("AccountID", "equal", a5,false));
-        String [] a6 = {};
-        this.filtersArr.add(new FilterRule("Backlog", "contain", a6,false));
-        this.filtersArr.add(new FilterRule("Country", "contain", a6,false));
-        this.filtersArr.add(new FilterRule("TCV", "contain", a6,false));
     }
     
     private boolean contains(String[] filtervals, String v, String operation){
@@ -157,7 +139,7 @@ public class Parser {
                 return false;
             }
             String strVal = val.toString();
-            if (filtersArr.get(i).values.length == 0){
+            if (filtersArr.get(i).values.length == 0 || (filtersArr.get(i).values.length == 1 && filtersArr.get(i).values[0] == null)){
                 addContractData(filtersArr.get(i).field_name);
             } else if (filtersArr.get(i).include) {
                 if (contains(filtersArr.get(i).values, strVal, filtersArr.get(i).comparison_type)){

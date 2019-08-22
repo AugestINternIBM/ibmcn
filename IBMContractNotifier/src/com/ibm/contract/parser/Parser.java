@@ -39,8 +39,8 @@ public class Parser {
 
     private Map<String, Feedback> feedbackMap = new HashMap<String, Feedback>();
 
-    private FilterEngine fe= new FilterEngine();
-    private ArrayList<FilterRule> filtersArr = fe.rulesList; 
+    private ExcelFilterBuilder fe= new ExcelFilterBuilder("FilterRules.xlsx");
+    private ArrayList<Filter> filtersArr = fe.buildFilters(); 
 
     public List getContractListFromExcel(String FILE_PATH , Map<String, Feedback> feedbackMap) {
 
@@ -92,10 +92,6 @@ public class Parser {
             }
         }
     }
-    
-    public ArrayList<FilterRule> getFiltersArr() {
-		return filtersArr;
-	}
 
 	private boolean contains(String[] filtervals, String v, String operation){
         if (operation == "equal"){

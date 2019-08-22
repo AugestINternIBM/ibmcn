@@ -9,7 +9,7 @@ public class ObjectConverter {
 	
 	private static ArrayList<String[]> filterData = new ArrayList<String[]>();
 	
-	private ArrayList<FilterRule> rulesList = new ArrayList<FilterRule>(); 
+	private ArrayList<Filter> rulesList = new ArrayList<Filter>(); 
 	
 	public void ObjectConverter() {
 		// TODO Auto-generated method stub
@@ -22,16 +22,16 @@ public class ObjectConverter {
 		this.filterData = filterData;
 	}
 	
-	public ArrayList<FilterRule> parseToObjects() {
+	public ArrayList<Filter> parseToObjects() {
 		for(int i=0 ; i<filterData.size() ; i++) {
 			String[] data = filterData.get(i);
 			String[] vars=data[2].split(",");
-			FilterRule rule = null;
+			Filter rule = null;
 			if(data[3].equalsIgnoreCase("Accepted")) {
-				rule = new FilterRule(data[0], data[1], vars, true);
+				rule = new Filter(data[0], data[1], vars, true);
 			} else{ if(data[3].equalsIgnoreCase("Declined")) {
-				rule = new FilterRule(data[0], data[1], data[2].split(","), false);
-			} else rule = new FilterRule(data[0], data[1], vars, false);}
+				rule = new Filter(data[0], data[1], data[2].split(","), false);
+			} else rule = new Filter(data[0], data[1], vars, false);}
 			//System.out.println(rule.field_name + rule.comparison_type + rule.include + rule.values.length);
 			rulesList.add(rule);
 		}

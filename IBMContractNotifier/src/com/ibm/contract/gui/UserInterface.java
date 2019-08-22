@@ -127,9 +127,6 @@ public class UserInterface {
 		settingButton.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				try{
-			        File file = new File("FilterRules.xlsx");
-			        Desktop desktop = Desktop.getDesktop();
-			        desktop.open(file);
 			        notify=new JFrame();
 			        notify.setAlwaysOnTop(true);
 			        JOptionPane.showMessageDialog(notify, "Welcome to IBMCN Filters Designer! \n\n"
@@ -139,6 +136,9 @@ public class UserInterface {
 			        		+ "3) Enter Values which the filter will use to filter the forcast values to include or exclude, the values are to be separted by a comma. \n"
 			        		+ "4) Choose Include state whether to \"include\" or \"exclude\" forcast records with values indicated in values section. \n"
 			        		+ "5) Save the Exel sheet and close it.");
+			        File file = new File("FilterRules.xlsx");
+			        Desktop desktop = Desktop.getDesktop();
+			        desktop.open(file);
 			          }catch(IOException  ex){
 			              ex.printStackTrace();
 					}

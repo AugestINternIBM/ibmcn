@@ -132,7 +132,13 @@ public class UserInterface {
 			        desktop.open(file);
 			        notify=new JFrame();
 			        notify.setAlwaysOnTop(true);
-			        JOptionPane.showMessageDialog(notify, "Welcome to ");
+			        JOptionPane.showMessageDialog(notify, "Welcome to IBMCN Filters Designer! \n\n"
+			        		+ "To add a new filter: \n"
+			        		+ "1) Enter Field Name similar to Field Name in the forcast file to filter according to this column, entring only the Field Name in a row filters out forcast records with no data in this field. \n"
+			        		+ "2) Choose Comparison Type whether comparing the filter values are \"equal\" the value in forcast file, or comparing whether the forcast file values \"contain\" the filter values. \n"
+			        		+ "3) Enter Values which the filter will use to filter the forcast values to include or exclude, the values are to be separted by a comma. \n"
+			        		+ "4) Choose Include state whether to \"include\" or \"exclude\" forcast records with values indicated in values section. \n"
+			        		+ "5) Save the Exel sheet and close it.");
 			          }catch(IOException  ex){
 			              ex.printStackTrace();
 					}

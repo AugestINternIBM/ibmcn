@@ -44,9 +44,7 @@ public class ExcelParser {
 
 			numberOfSheets = workbook.getNumberOfSheets();
 
-			// looping over each workbook sheet
-			for (int i = 0; i < numberOfSheets; i++) {
-				sheet = workbook.getSheetAt(i);
+				sheet = workbook.getSheetAt(0);
 				rowIterator = sheet.iterator();
 
 				// Init header map
@@ -69,7 +67,7 @@ public class ExcelParser {
 					}
 					myList.add(rowContent);
 				}
-			}
+			
 
 			this.fileInputStream.close();
 

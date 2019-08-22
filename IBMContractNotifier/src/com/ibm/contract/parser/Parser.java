@@ -94,15 +94,20 @@ public class Parser {
     }
 //TODO: add function to fill the filters array
     private void initFiltersArr(){
-    	
-//        this.filtersArr[0] = new FilterRule("Div Code", "equal", true,new ArrayList<String>(Arrays.asList("7H", "K4", "7G", "8E")));
-//        this.filtersArr[1] = new FilterRule("OppName", "contain", false,new ArrayList<String>(Arrays.asList("sales order")));
-//        this.filtersArr[2] = new FilterRule("SignProbability", "equal", true,new ArrayList<String>(Arrays.asList("1.0")));
-//        this.filtersArr[3] = new FilterRule("IMT", "equal", true,new ArrayList<String>(Arrays.asList("MEA")));
-//        this.filtersArr[4] = new FilterRule("AccountID", "equal", false,new ArrayList<String>(Arrays.asList("TBD")));
-//        this.filtersArr[5] = new FilterRule("Backlog", "contain", false,new ArrayList<String>());
-//        this.filtersArr[6] = new FilterRule("Country", "contain", false,new ArrayList<String>());
-//        this.filtersArr[7] = new FilterRule("TCV", "contain", false,new ArrayList<String>());
+    	String [] a1 = {"7H", "K4", "7G", "8E"};
+        this.filtersArr.add(new FilterRule("Div Code", "equal", a1,true));
+        String [] a2 = {"sales order"};
+        this.filtersArr.add(new FilterRule("OppName", "contain", a2, false));
+        String [] a3 = {"1.0"};
+        this.filtersArr.add(new FilterRule("SignProbability", "equal", a3, true));
+        String [] a4 = {"MEA"};
+        this.filtersArr.add(new FilterRule("IMT", "equal", a4,true));
+        String [] a5 = {"TBD"};
+        this.filtersArr.add(new FilterRule("AccountID", "equal", a5,false));
+        String [] a6 = {};
+        this.filtersArr.add(new FilterRule("Backlog", "contain", a6,false));
+        this.filtersArr.add(new FilterRule("Country", "contain", a6,false));
+        this.filtersArr.add(new FilterRule("TCV", "contain", a6,false));
     }
     
     private boolean contains(String[] filtervals, String v, String operation){

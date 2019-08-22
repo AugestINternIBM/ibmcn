@@ -11,6 +11,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.rmi.RemoteException;
 import java.util.Properties;
 
@@ -370,14 +372,14 @@ public class UserInterface {
 					setConfig();
 	            	try {
 						client.invoqueRequest();
+						progressBar.setValue(100);
 					} catch (RemoteException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						JOptionPane.showMessageDialog(null,"Connection to server failed! \n"
+								+ "Please check connection to the server and try again.", "Error 404!" ,JOptionPane.ERROR_MESSAGE);
 					} catch (ServiceException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						JOptionPane.showMessageDialog(null,"Connection to server failed! \n"
+								+ "Please check connection to the serverand try again", "Error 404!" ,JOptionPane.ERROR_MESSAGE);
 					}
-					progressBar.setValue(100);
 				}
 			}
 
@@ -423,11 +425,25 @@ public class UserInterface {
 		String fileName = "app.config";
 		InputStream is = null;
 		try {
+			File f = new File(fileName);
+			if(!(f.exists() && !f.isDirectory())) { 
+				fileChooser = new JFileChooser();
+				PrintWriter writer;
+				try {
+					writer = new PrintWriter("app.config", "UTF-8");
+					writer.println("outputPath=%userprofile%\\documents");
+					writer.println("host=http\\://localhost\\:9090");
+					writer.println("inputPath=%userprofile%\\documents");
+					writer.close();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+			}
 		    is = new FileInputStream(fileName);
 		} catch (FileNotFoundException ex) {
-			JOptionPane.showMessageDialog(null,"Config file not found! \n"
-					+ "Please reinstall the program.", "Error 404!" ,JOptionPane.ERROR_MESSAGE);
-			System.exit(0);
+			ex.printStackTrace();
 		}
 		try {
 		    prop.load(is);

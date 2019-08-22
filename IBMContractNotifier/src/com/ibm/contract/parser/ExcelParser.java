@@ -75,7 +75,7 @@ public class ExcelParser {
 			this.fileInputStream.close();
 
 		} catch (FileNotFoundException e) {
-			JOptionPane.showMessageDialog(null,"Excel file not found! \n"
+			JOptionPane.showMessageDialog(null,"Excel Filter Rules file \"FilterRules\" not found! \n"
 					+ "Please reinstall the program.", "Error 404!" ,JOptionPane.ERROR_MESSAGE);
 			System.exit(0);
 		} catch (IOException e) {

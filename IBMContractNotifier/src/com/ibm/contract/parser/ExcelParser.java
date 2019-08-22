@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
+
+import javax.swing.JOptionPane;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -72,7 +75,9 @@ public class ExcelParser {
 			this.fileInputStream.close();
 
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,"Excel file not found! \n"
+					+ "Please reinstall the program.", "Error 404!" ,JOptionPane.ERROR_MESSAGE);
+			System.exit(0);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

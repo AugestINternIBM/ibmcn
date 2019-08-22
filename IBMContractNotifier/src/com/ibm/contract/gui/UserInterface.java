@@ -425,7 +425,9 @@ public class UserInterface {
 		try {
 		    is = new FileInputStream(fileName);
 		} catch (FileNotFoundException ex) {
-			fileChooser = new JFileChooser();
+			JOptionPane.showMessageDialog(null,"Config file not found! \n"
+					+ "Please reinstall the program.", "Error 404!" ,JOptionPane.ERROR_MESSAGE);
+			System.exit(0);
 		}
 		try {
 		    prop.load(is);

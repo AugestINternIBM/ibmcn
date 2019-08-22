@@ -39,7 +39,7 @@ public class Parser {
 
     private Map<String, Feedback> feedbackMap = new HashMap<String, Feedback>();
 
-    private FilterRule[] filtersArr = new FilterRule[8];
+    private ArrayList<FilterRule> filtersArr = new ArrayList<>(); 
 
     public List getContractListFromExcel(String FILE_PATH , Map<String, Feedback> feedbackMap) {
 
@@ -94,25 +94,26 @@ public class Parser {
     }
 //TODO: add function to fill the filters array
     private void initFiltersArr(){
-        this.filtersArr[0] = new FilterRule("Div Code", "equal", true,new ArrayList<String>(Arrays.asList("7H", "K4", "7G", "8E")));
-        this.filtersArr[1] = new FilterRule("OppName", "contain", false,new ArrayList<String>(Arrays.asList("sales order")));
-        this.filtersArr[2] = new FilterRule("SignProbability", "equal", true,new ArrayList<String>(Arrays.asList("1.0")));
-        this.filtersArr[3] = new FilterRule("IMT", "equal", true,new ArrayList<String>(Arrays.asList("MEA")));
-        this.filtersArr[4] = new FilterRule("AccountID", "equal", false,new ArrayList<String>(Arrays.asList("TBD")));
-        this.filtersArr[5] = new FilterRule("Backlog", "contain", false,new ArrayList<String>());
-        this.filtersArr[6] = new FilterRule("Country", "contain", false,new ArrayList<String>());
-        this.filtersArr[7] = new FilterRule("TCV", "contain", false,new ArrayList<String>());
+    	
+//        this.filtersArr[0] = new FilterRule("Div Code", "equal", true,new ArrayList<String>(Arrays.asList("7H", "K4", "7G", "8E")));
+//        this.filtersArr[1] = new FilterRule("OppName", "contain", false,new ArrayList<String>(Arrays.asList("sales order")));
+//        this.filtersArr[2] = new FilterRule("SignProbability", "equal", true,new ArrayList<String>(Arrays.asList("1.0")));
+//        this.filtersArr[3] = new FilterRule("IMT", "equal", true,new ArrayList<String>(Arrays.asList("MEA")));
+//        this.filtersArr[4] = new FilterRule("AccountID", "equal", false,new ArrayList<String>(Arrays.asList("TBD")));
+//        this.filtersArr[5] = new FilterRule("Backlog", "contain", false,new ArrayList<String>());
+//        this.filtersArr[6] = new FilterRule("Country", "contain", false,new ArrayList<String>());
+//        this.filtersArr[7] = new FilterRule("TCV", "contain", false,new ArrayList<String>());
     }
     
-    private boolean contains(ArrayList<String> filtervals, String v, String operation){
+    private boolean contains(String[] filtervals, String v, String operation){
         if (operation == "equal"){
-            for (int i = 0; i < filtervals.size(); i++) {
-                if (filtervals.get(i).equals(v))
+            for (int i = 0; i < filtervals.length; i++) {
+                if (filtervals[i].equals(v))
                     return true;
             }
         } else {
-            for (int i = 0; i < filtervals.size(); i++) {
-                if (filtervals.get(i).contains(v))
+            for (int i = 0; i < filtervals.length; i++) {
+                if (filtervals[i].contains(v))
                     return true;
             }
         }
@@ -139,31 +140,31 @@ public class Parser {
     }
     private boolean initContract() {
         this.contract = new Contract();
-        for (int i = 0; i < filtersArr.length; i++) {
+        for (int i = 0; i < filtersArr.size(); i++) {
         	Cell val = null;
         	try{
-                val = this.row.getCell(this.columnsHeaderMap.get(filtersArr[i].field_name));
+                val = this.row.getCell(this.columnsHeaderMap.get(filtersArr.get(i).field_name));
         	} catch (Exception e){
-        		System.out.println("Column with field name  "  + filtersArr[i].field_name +" not found" );
+        		System.out.println("Column with field name  "  + filtersArr.get(i).field_name +" not found" );
         		System.exit(0);
         	}
             if (val == null || val.toString() == "" || val.toString() == "NULL") {
                 return false;
             }
             String strVal = val.toString();
-            if (filtersArr[i].values.size() == 0){
-                addContractData(filtersArr[i].field_name);
-            } else if (filtersArr[i].include) {
-                if (contains(filtersArr[i].values, strVal, filtersArr[i].comparison_type)){
-                    addContractData(filtersArr[i].field_name);
+            if (filtersArr.get(i).values.length == 0){
+                addContractData(filtersArr.get(i).field_name);
+            } else if (filtersArr.get(i).include) {
+                if (contains(filtersArr.get(i).values, strVal, filtersArr.get(i).comparison_type)){
+                    addContractData(filtersArr.get(i).field_name);
                 } else {
                     return false;
                 }
             } else {
-                if (contains(filtersArr[i].values, strVal, filtersArr[i].comparison_type)) {
+                if (contains(filtersArr.get(i).values, strVal, filtersArr.get(i).comparison_type)) {
                     return false;
                 } else {
-                    addContractData(filtersArr[i].field_name);
+                    addContractData(filtersArr.get(i).field_name);
                 }
             }
         }

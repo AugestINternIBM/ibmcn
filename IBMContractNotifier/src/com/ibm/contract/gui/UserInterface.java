@@ -30,6 +30,7 @@ import com.ibm.contract.client.ClientApplication;
 
 import javax.swing.JTextField;
 import javax.swing.JProgressBar;
+import java.awt.Desktop;
 
 public class UserInterface {
 
@@ -39,6 +40,9 @@ public class UserInterface {
 	private JPanel navPanel;
 	private JLabel titleLabel;
 	private JEditorPane hostEdittext;
+	
+	private JFrame notify;
+	private JButton settingButton;
 	
 	private JPanel bodyPanel;
 	
@@ -105,19 +109,51 @@ public class UserInterface {
 		navPanel = new JPanel();
 		navPanel.setBackground(new Color(0, 102, 204));
 		navPanel.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
-		navPanel.setBounds(0, 0, 486, 38);
+		navPanel.setBounds(0, 0, 486, 40);
 		backgroundPanel.add(navPanel);
 		navPanel.setLayout(null);
+		
+		settingButton = new JButton("\u2699");
+		settingButton.setFont(new Font("Dialog.bold",Font.PLAIN,25));
+		settingButton.setBounds(5, 7, 30, 27);
+		navPanel.add(settingButton);
+		settingButton.setForeground(Color.white);
+		settingButton.setBorder(null);
+		settingButton.setFocusPainted(false);
+		settingButton.setContentAreaFilled(false);
+		
+		settingButton.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				try{
+			        File file = new File("FilterRules.xlsx");
+			        Desktop desktop = Desktop.getDesktop();
+			        desktop.open(file);
+			        notify=new JFrame();
+			        notify.setAlwaysOnTop(true);
+			        JOptionPane.showMessageDialog(notify, "Rules design!");
+			          }catch(IOException  ex){
+			              ex.printStackTrace();
+					}
+			}
+
+			public void mouseEntered(java.awt.event.MouseEvent evt) {
+				settingButton.setForeground(Color.lightGray);
+			}
+
+			public void mouseExited(java.awt.event.MouseEvent evt) {
+				settingButton.setForeground(Color.white);
+			}
+		});
 
 		titleLabel = new JLabel("IBM Contracts");
 		titleLabel.setBackground(Color.WHITE);
 		titleLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
 		titleLabel.setForeground(Color.WHITE);
 		titleLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		titleLabel.setBounds(10, 12, 141, 15);
+		titleLabel.setBounds(40, 12, 141, 15);
 		navPanel.add(titleLabel);
 		
-
+		
 		hostEdittext = new JEditorPane();
 		String serverAddress = getConfig("host");
 		
@@ -132,7 +168,7 @@ public class UserInterface {
 		}
 		
 		hostEdittext.setText(serverAddress);
-		hostEdittext.setBounds(150, 9, 326, 21);
+		hostEdittext.setBounds(180, 9, 280, 21);
 		navPanel.add(hostEdittext);
 
 		bodyPanel = new JPanel();
@@ -173,7 +209,7 @@ public class UserInterface {
 					inputPath= selectedFile.getPath();
 					setConfig();
 					progressBar.setValue(10);
-					 client.setFcPath(selectedFile.getPath());
+					client.setFcPath(selectedFile.getPath());
 				}
 			}
 
@@ -281,7 +317,7 @@ public class UserInterface {
 					outputPath= selectedFile.getPath();
 					setConfig();
 					progressBar.setValue(30);
-				 client.setOutPutFilePath(selectedFile.getPath());
+				    client.setOutPutFilePath(selectedFile.getPath());
 				}
 			}
 
@@ -406,5 +442,3 @@ public class UserInterface {
 		}
 	}
 }
-
-

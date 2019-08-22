@@ -140,7 +140,13 @@ public class Parser {
     private boolean initContract() {
         this.contract = new Contract();
         for (int i = 0; i < filtersArr.length; i++) {
-            Cell val = this.row.getCell(this.columnsHeaderMap.get(filtersArr[i].field_name));
+        	Cell val = null;
+        	try{
+                val = this.row.getCell(this.columnsHeaderMap.get(filtersArr[i].field_name));
+        	} catch (Exception e){
+        		System.out.println("Column with field name  "  + filtersArr[i].field_name +" not found" );
+        		System.exit(0);
+        	}
             if (val == null || val.toString() == "" || val.toString() == "NULL") {
                 return false;
             }

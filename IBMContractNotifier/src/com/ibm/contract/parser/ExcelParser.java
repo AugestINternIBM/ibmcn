@@ -44,16 +44,16 @@ public class ExcelParser {
 
 			numberOfSheets = workbook.getNumberOfSheets();
 
-				sheet = workbook.getSheetAt(0);
-				rowIterator = sheet.iterator();
+			sheet = workbook.getSheetAt(0);
+			rowIterator = sheet.iterator();
 
-				// Init header map
-				this.initColumnsHeaderMap();
+			// Init header map
+			this.initColumnsHeaderMap();
 
-				// iterating over each row and start from the second one
-				this.rowIterator.next();
-				int s=0;
-				while (this.rowIterator.hasNext()) {
+			// iterating over each row and start from the second one
+			this.rowIterator.next();
+			int s=0;
+			while (this.rowIterator.hasNext()) {
 					s++;
 					this.colNum = this.sheet.getRow(0).getLastCellNum();
 					this.row = (Row) this.rowIterator.next();
@@ -66,7 +66,7 @@ public class ExcelParser {
 						}
 					}
 					myList.add(rowContent);
-				}
+			}
 			
 
 			this.fileInputStream.close();

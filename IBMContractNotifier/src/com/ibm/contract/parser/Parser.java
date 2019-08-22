@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,270 +21,201 @@ import java.util.Map;
 
 public class Parser {
 
-	private ArrayList<Contract> contractsList = new ArrayList<Contract>();
-	private Contract contract;
+    private ArrayList<Contract> contractsList = new ArrayList<Contract>();
+    private Contract contract;
 
-	private FileInputStream fileInputStream;
-	private Workbook workbook;
-	private int numberOfSheets;
-	private Sheet sheet;
-	private Row row;
-	private Cell cell;
+    private FileInputStream fileInputStream;
+    private Workbook workbook;
+    private int numberOfSheets;
+    private Sheet sheet;
+    private Row row;
+    private Cell cell;
 
-	private Iterator rowIterator;
-	private Iterator cellIterator;
+    private Iterator rowIterator;
+    private Iterator cellIterator;
 
-	private Map<String, Integer> columnsHeaderMap = new HashMap<String, Integer>();
-	private int colNum;
-	
-	private Map<String, Feedback> feedbackMap = new HashMap<String, Feedback>();
+    private Map<String, Integer> columnsHeaderMap = new HashMap<String, Integer>();
+    private int colNum;
 
-	public List getContractListFromExcel(String FILE_PATH , Map<String, Feedback> feedbackMap) {
-		
-		this.feedbackMap = feedbackMap;
+    private Map<String, Feedback> feedbackMap = new HashMap<String, Feedback>();
 
-		try {
-			this.fileInputStream = new FileInputStream(FILE_PATH);
+    private ArrayList<FilterRule> filtersArr = new ArrayList<>(); 
 
-			// Using XSSF for xlsx format, for xls use HSSF
-			this.workbook = new XSSFWorkbook(fileInputStream);
+    public List getContractListFromExcel(String FILE_PATH , Map<String, Feedback> feedbackMap) {
 
-			this.numberOfSheets = this.workbook.getNumberOfSheets();
+        this.feedbackMap = feedbackMap;
+        initFiltersArr();
 
-			// looping over each workbook sheet
-			for (int i = 0; i < this.numberOfSheets; i++) {
-				this.sheet = this.workbook.getSheetAt(i);
-				this.rowIterator = this.sheet.iterator();
+        try {
+            this.fileInputStream = new FileInputStream(FILE_PATH);
 
-				// Init header map
-				this.initColumnsHeaderMap();
+            // Using XSSF for xlsx format, for xls use HSSF
+            this.workbook = new XSSFWorkbook(fileInputStream);
 
-				// iterating over each row and start from the second one
-				this.rowIterator.next();
-				while (this.rowIterator.hasNext()) {
+            this.numberOfSheets = this.workbook.getNumberOfSheets();
 
-					this.row = (Row) this.rowIterator.next();
+            // looping over each workbook sheet
+            for (int i = 0; i < this.numberOfSheets; i++) {
+                this.sheet = this.workbook.getSheetAt(i);
+                this.rowIterator = this.sheet.iterator();
 
-					if(this.initContract()) {
-						this.contractsList.add(this.contract);
-					}
-				}
-			}
+                // Init header map
+                this.initColumnsHeaderMap();
 
-			this.fileInputStream.close();
+                // iterating over each row and start from the second one
+                this.rowIterator.next();
+                while (this.rowIterator.hasNext()) {
 
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return this.contractsList;
-	}
+                    this.row = (Row) this.rowIterator.next();
 
-	private void initColumnsHeaderMap() {
-		this.colNum = this.sheet.getRow(0).getLastCellNum();
-		if (this.sheet.getRow(0).cellIterator().hasNext()) {
-			for (int j = 0; j < this.colNum; j++) {
-				this.columnsHeaderMap.put((this.sheet.getRow(0).getCell(j).toString()), j);
-			}
-		}
-	}
+                    if(this.initContract()) {
+                        this.contractsList.add(this.contract);
+                    }
+                }
+            }
 
-	private boolean initContract() {
-		this.contract = new Contract();
+            this.fileInputStream.close();
 
-		if (this.row.getCell(this.columnsHeaderMap.get("AccountID")) == null||
-				this.row.getCell(this.columnsHeaderMap.get("AccountID")).toString().equals("")||
-				this.row.getCell(this.columnsHeaderMap.get("AccountID")).toString().equals("TBD")||
-				this.row.getCell(this.columnsHeaderMap.get("AccountID")).toString().equals("NULL")) {
-			return false;
-		} else {
-			this.contract.setAccoundID(this.row.getCell(this.columnsHeaderMap.get("AccountID")).toString());
-		}
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return this.contractsList;
+    }
 
-		if (this.row.getCell(this.columnsHeaderMap.get("TCV")) == null||
-				this.row.getCell(this.columnsHeaderMap.get("TCV")).toString().equals("")) {
-			return false;
-		} else {
-			this.contract.setTcv(this.row.getCell(this.columnsHeaderMap.get("TCV")).getNumericCellValue());
-		}
-		
-		// TODO : Bind pv columns
-		Double[] pv = new Double[12];
-		if (this.row.getCell(this.columnsHeaderMap.get("PV_01")) == null) {
-			return false;
-		} else {
-			pv[0] = this.row.getCell(this.columnsHeaderMap.get("PV_01")).getNumericCellValue();
-		}
-		if (this.row.getCell(this.columnsHeaderMap.get("PV_02")) == null) {
-			return false;
-		} else {
-			pv[1] = this.row.getCell(this.columnsHeaderMap.get("PV_02")).getNumericCellValue();
-		}
-		if (this.row.getCell(this.columnsHeaderMap.get("PV_03")) == null) {
-			return false;
-		} else {
-			pv[2] = this.row.getCell(this.columnsHeaderMap.get("PV_03")).getNumericCellValue();
-		}
-		if (this.row.getCell(this.columnsHeaderMap.get("PV_04")) == null) {
-			return false;
-		} else {
-			pv[3] = this.row.getCell(this.columnsHeaderMap.get("PV_04")).getNumericCellValue();
-		}
-		if (this.row.getCell(this.columnsHeaderMap.get("PV_05")) == null) {
-			return false;
-		} else {
-			pv[4] = this.row.getCell(this.columnsHeaderMap.get("PV_05")).getNumericCellValue();
-		}
-		if (this.row.getCell(this.columnsHeaderMap.get("PV_06")) == null) {
-			return false;
-		} else {
-			pv[5] = this.row.getCell(this.columnsHeaderMap.get("PV_06")).getNumericCellValue();
-		}
-		if (this.row.getCell(this.columnsHeaderMap.get("PV_07")) == null) {
-			return false;
-		} else {
-			pv[6] = this.row.getCell(this.columnsHeaderMap.get("PV_07")).getNumericCellValue();
-		}
-		if (this.row.getCell(this.columnsHeaderMap.get("PV_08")) == null) {
-			return false;
-		} else {
-			pv[7] = this.row.getCell(this.columnsHeaderMap.get("PV_08")).getNumericCellValue();
-		}
-		if (this.row.getCell(this.columnsHeaderMap.get("PV_09")) == null) {
-			return false;
-		} else {
-			pv[8] = this.row.getCell(this.columnsHeaderMap.get("PV_09")).getNumericCellValue();
-		}
-		if (this.row.getCell(this.columnsHeaderMap.get("PV_10")) == null) {
-			return false;
-		} else {
-			pv[9] = this.row.getCell(this.columnsHeaderMap.get("PV_10")).getNumericCellValue();
-		}
-		if (this.row.getCell(this.columnsHeaderMap.get("PV_11")) == null) {
-			return false;
-		} else {
-			pv[10] = this.row.getCell(this.columnsHeaderMap.get("PV_11")).getNumericCellValue();
-		}
-		if (this.row.getCell(this.columnsHeaderMap.get("PV_12")) == null) {
-			return false;
-		} else {
-			pv[11] = this.row.getCell(this.columnsHeaderMap.get("PV_12")).getNumericCellValue();
-		}
-		
-		//this.contract.setPv(pv);
-		
-		/**adding recently update**/
-		if(this.row.getCell(this.columnsHeaderMap.get("Customer Name")) != null){
-			if(this.row.getCell(this.columnsHeaderMap.get("Customer Name")).toString().contains("Sales Order")){
-				return false;
-			}
-		}
-		/*
-		if(this.row.getCell(this.columnsHeaderMap.get("BL Status")) != null ){
-			if(this.row.getCell(this.columnsHeaderMap.get("BL Status")).toString().equals("Eroded")||
-					this.row.getCell(this.columnsHeaderMap.get("BL Status")).toString().equals("Closed")){
-		
-			return false;
-		}
-		}
-		*/
-		
-		
-		/***/	
-		
-		
-		if (this.row.getCell(this.columnsHeaderMap.get("Backlog")) == null||
-				this.row.getCell(this.columnsHeaderMap.get("Backlog")).toString().equals("")) {
-			return false;
-		} else {
-			this.contract.setBackLog(this.row.getCell(this.columnsHeaderMap.get("Backlog")).getNumericCellValue());
-		}
-		
-		String[] candidates = this.contract.getAccoundID().split(",");
-		int count = 0;
+    private void initColumnsHeaderMap() {
+        this.colNum = this.sheet.getRow(0).getLastCellNum();
+        if (this.sheet.getRow(0).cellIterator().hasNext()) {
+            for (int j = 0; j < this.colNum; j++) {
+                this.columnsHeaderMap.put((this.sheet.getRow(0).getCell(j).toString()), j);
+            }
+        }
+    }
+//TODO: add function to fill the filters array
+    private void initFiltersArr(){
+    	
+//        this.filtersArr[0] = new FilterRule("Div Code", "equal", true,new ArrayList<String>(Arrays.asList("7H", "K4", "7G", "8E")));
+//        this.filtersArr[1] = new FilterRule("OppName", "contain", false,new ArrayList<String>(Arrays.asList("sales order")));
+//        this.filtersArr[2] = new FilterRule("SignProbability", "equal", true,new ArrayList<String>(Arrays.asList("1.0")));
+//        this.filtersArr[3] = new FilterRule("IMT", "equal", true,new ArrayList<String>(Arrays.asList("MEA")));
+//        this.filtersArr[4] = new FilterRule("AccountID", "equal", false,new ArrayList<String>(Arrays.asList("TBD")));
+//        this.filtersArr[5] = new FilterRule("Backlog", "contain", false,new ArrayList<String>());
+//        this.filtersArr[6] = new FilterRule("Country", "contain", false,new ArrayList<String>());
+//        this.filtersArr[7] = new FilterRule("TCV", "contain", false,new ArrayList<String>());
+    }
+    
+    private boolean contains(String[] filtervals, String v, String operation){
+        if (operation == "equal"){
+            for (int i = 0; i < filtervals.length; i++) {
+                if (filtervals[i].equals(v))
+                    return true;
+            }
+        } else {
+            for (int i = 0; i < filtervals.length; i++) {
+                if (filtervals[i].contains(v))
+                    return true;
+            }
+        }
+        return false;
+    }
 
-		for (String candidate : candidates) {
-			if (feedbackMap.containsKey(candidate)) {
-				count = count + this.feedbackMap.get(candidate).getNo_of_feedbacks();
-				this.contract.setNumberOfFeedbacks(this.feedbackMap.get(candidate).getNo_of_feedbacks());
-			}
-		}
-		
-		this.contract.setNumberOfFeedbacks(count);
+    private void addContractData (String fieldName){
+        switch(fieldName) {
+            case "AccountID":
+                this.contract.setAccoundID(this.row.getCell(this.columnsHeaderMap.get("AccountID")).toString());
+                break;
+            case "TCV":
+                this.contract.setTcv(this.row.getCell(this.columnsHeaderMap.get("TCV")).getNumericCellValue());
+                break;
+            case "Backlog":
+                this.contract.setBackLog(this.row.getCell(this.columnsHeaderMap.get("Backlog")).getNumericCellValue());
+                break;
+            case "Country":
+                this.contract.setCountry(this.row.getCell(this.columnsHeaderMap.get("Country")).toString());
+                break;
+            default:
+                return;
+        }
+    }
+    private boolean initContract() {
+        this.contract = new Contract();
+        for (int i = 0; i < filtersArr.size(); i++) {
+        	Cell val = null;
+        	try{
+                val = this.row.getCell(this.columnsHeaderMap.get(filtersArr.get(i).field_name));
+        	} catch (Exception e){
+        		System.out.println("Column with field name  "  + filtersArr.get(i).field_name +" not found" );
+        		System.exit(0);
+        	}
+            if (val == null || val.toString() == "" || val.toString() == "NULL") {
+                return false;
+            }
+            String strVal = val.toString();
+            if (filtersArr.get(i).values.length == 0){
+                addContractData(filtersArr.get(i).field_name);
+            } else if (filtersArr.get(i).include) {
+                if (contains(filtersArr.get(i).values, strVal, filtersArr.get(i).comparison_type)){
+                    addContractData(filtersArr.get(i).field_name);
+                } else {
+                    return false;
+                }
+            } else {
+                if (contains(filtersArr.get(i).values, strVal, filtersArr.get(i).comparison_type)) {
+                    return false;
+                } else {
+                    addContractData(filtersArr.get(i).field_name);
+                }
+            }
+        }
 
-		int month = Calendar.getInstance().get(Calendar.MONTH);
-		
-		this.contract.setCurrentPv(pv[month-1]);
-		
-		
-		/////////////////////////////////////////////////////////
-		double year = (double)Calendar.getInstance().get(Calendar.YEAR);
+        Double[] pv = new Double[12];
+        String pvStr = "PV_";
+        for (int i = 1; i < 13; i++) {
+            if (i <= 9) {
+                if (this.row.getCell(this.columnsHeaderMap.get(pvStr + "0" + i)) == null) {
+                    return false;
+                } else {
+                    pv[i - 1] = this.row.getCell(this.columnsHeaderMap.get(pvStr + "0" + i)).getNumericCellValue();
+                }
+            } else {
+                if (this.row.getCell(this.columnsHeaderMap.get(pvStr + i)) == null) {
+                    return false;
+                } else {
+                    pv[i - 1] = this.row.getCell(this.columnsHeaderMap.get(pvStr + i)).getNumericCellValue();
+                }
+            }
+        }
 
-		if (this.row.getCell(this.columnsHeaderMap.get("Yr")) != null &&this.row.getCell(this.columnsHeaderMap.get("Yr")).getNumericCellValue() != year||
-				this.row.getCell(this.columnsHeaderMap.get("Yr")).toString().equals("")){
-			return false;
+        int month = Calendar.getInstance().get(Calendar.MONTH);
+        this.contract.setCurrentPv(pv[month-1]);
 
-		} 
-		
-		if(this.row.getCell(this.columnsHeaderMap.get("IMT")) != null &&!(this.row.getCell(this.columnsHeaderMap.get("IMT")).toString().equals("MEA"))||
-				this.row.getCell(this.columnsHeaderMap.get("IMT")).toString().equals("")){
-			return false;
+        String[] candidates = this.contract.getAccoundID().split(",");
+        int count = 0;
+        for (String candidate : candidates) {
+            if (feedbackMap.containsKey(candidate)) {
+                count = count + this.feedbackMap.get(candidate).getNo_of_feedbacks();
+                this.contract.setNumberOfFeedbacks(this.feedbackMap.get(candidate).getNo_of_feedbacks());
+            }
+        }
+        this.contract.setNumberOfFeedbacks(count);
 
-		}
-		
-		if(this.row.getCell(this.columnsHeaderMap.get("Div Code")) != null &&!(this.row.getCell(this.columnsHeaderMap.get("Div Code")).toString().equals("7H")||
-				this.row.getCell(this.columnsHeaderMap.get("Div Code")).toString().equals("K4")||
-				this.row.getCell(this.columnsHeaderMap.get("Div Code")).toString().equals("7G")||
-				this.row.getCell(this.columnsHeaderMap.get("Div Code")).toString().equals("8E"))){
-			return false;
+        double year = (double)Calendar.getInstance().get(Calendar.YEAR);
+        if (this.row.getCell(this.columnsHeaderMap.get("Yr")) != null &&this.row.getCell(this.columnsHeaderMap.get("Yr")).getNumericCellValue() != year||
+                this.row.getCell(this.columnsHeaderMap.get("Yr")).toString().equals("")){
+            return false;
+        }
 
-		}
-		
-		/*not checked*/
-		//System.out.println();
-		if(this.row.getCell(this.columnsHeaderMap.get("SignProbability")) != null && (!(this.row.getCell(this.columnsHeaderMap.get("SignProbability")).toString().equals("1.0"))||
-				this.row.getCell(this.columnsHeaderMap.get("SignProbability")).toString().equals(""))){
-			return false;
+        String CustomerName="";
+        String oppName="";
+        if (this.row.getCell(this.columnsHeaderMap.get("Customer Name")) != null) {
+            CustomerName=this.row.getCell(this.columnsHeaderMap.get("Customer Name")).toString().replaceAll("\u001a", " ");
+        }
+        if (this.row.getCell(this.columnsHeaderMap.get("OppName")) != null) {
+            oppName=this.row.getCell(this.columnsHeaderMap.get("OppName")).toString().replaceAll("\u001a", " ");
+        }
+        this.contract.setProjectName(CustomerName+ " "+oppName+ " ("+this.contract.getAccoundID()+")");
 
-		}
-
-		
-		if(this.row.getCell(this.columnsHeaderMap.get("OppName")) != null && (this.row.getCell(this.columnsHeaderMap.get("OppName")).toString().contains("Sales Order")||
-				this.row.getCell(this.columnsHeaderMap.get("OppName")).toString().equals(""))){
-			return false;
-
-		}
-		
-		if (this.row.getCell(this.columnsHeaderMap.get("Country")) == null||
-				this.row.getCell(this.columnsHeaderMap.get("Country")).toString().equals("")) {
-			return false;
-		} else {
-			this.contract.setCountry(this.row.getCell(this.columnsHeaderMap.get("Country")).toString());
-		}
-		/*
-		if(this.feedbackMap.get(this.contract.getAccoundID()) != null){
-			this.contract.setProjectName(this.feedbackMap.get(this.contract.getAccoundID()).getProject_name());
-		
-			this.contract.setProjectDescription(this.feedbackMap.get(this.contract.getAccoundID()).getProject_description());
-		}
-		else{
-			this.contract.setProjectName("");
-			
-			this.contract.setProjectDescription("");
-		
-		}
-		*/
-		String CustomerName="";
-		String oppName="";
-		if (this.row.getCell(this.columnsHeaderMap.get("Customer Name")) != null) {
-			CustomerName=this.row.getCell(this.columnsHeaderMap.get("Customer Name")).toString().replaceAll("\u001a", " ");
-		} 
-		if (this.row.getCell(this.columnsHeaderMap.get("OppName")) != null) {
-			oppName=this.row.getCell(this.columnsHeaderMap.get("OppName")).toString().replaceAll("\u001a", " ");
-		} 
-		this.contract.setProjectName(CustomerName+ " "+oppName+ " ("+this.contract.getAccoundID()+")");
-		
-		return true;
-	}
+        return true;
+    }
 }

@@ -26,14 +26,12 @@ import javax.swing.border.BevelBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.rpc.ServiceException;
 
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import com.ibm.contract.client.ClientApplication;
 
 import javax.swing.JTextField;
 import javax.swing.JProgressBar;
 import java.awt.Desktop;
-import java.awt.Dialog;
+
 public class UserInterface {
 
 	private JFrame frame;
@@ -42,6 +40,8 @@ public class UserInterface {
 	private JPanel navPanel;
 	private JLabel titleLabel;
 	private JEditorPane hostEdittext;
+	
+	private JFrame notify;
 	private JButton settingButton;
 	
 	private JPanel bodyPanel;
@@ -113,8 +113,7 @@ public class UserInterface {
 		backgroundPanel.add(navPanel);
 		navPanel.setLayout(null);
 		
-		settingButton = new JButton("\u2699");;
-		System.out.print(settingButton.getFont().getFontName());
+		settingButton = new JButton("\u2699");
 		settingButton.setFont(new Font("Dialog.bold",Font.PLAIN,25));
 		settingButton.setBounds(5, 7, 30, 27);
 		navPanel.add(settingButton);
@@ -129,9 +128,12 @@ public class UserInterface {
 			        File file = new File("FilterRules.xlsx");
 			        Desktop desktop = Desktop.getDesktop();
 			        desktop.open(file);
+			        notify=new JFrame();
+			        notify.setAlwaysOnTop(true);
+			        JOptionPane.showMessageDialog(notify, "Rules design!");
 			          }catch(IOException  ex){
 			              ex.printStackTrace();
-			          }
+					}
 			}
 
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -207,7 +209,7 @@ public class UserInterface {
 					inputPath= selectedFile.getPath();
 					setConfig();
 					progressBar.setValue(10);
-					 client.setFcPath(selectedFile.getPath());
+					client.setFcPath(selectedFile.getPath());
 				}
 			}
 
@@ -315,7 +317,7 @@ public class UserInterface {
 					outputPath= selectedFile.getPath();
 					setConfig();
 					progressBar.setValue(30);
-				 client.setOutPutFilePath(selectedFile.getPath());
+				    client.setOutPutFilePath(selectedFile.getPath());
 				}
 			}
 

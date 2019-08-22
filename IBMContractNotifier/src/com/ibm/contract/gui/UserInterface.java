@@ -27,6 +27,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.rpc.ServiceException;
 
 import com.ibm.contract.client.ClientApplication;
+import com.ibm.contract.parser.Parser;
 
 import javax.swing.JTextField;
 import javax.swing.JProgressBar;
@@ -78,6 +79,7 @@ public class UserInterface {
 	private FileNameExtensionFilter txtFilter = new FileNameExtensionFilter("Text files", "txt");
 
 	public static void main(String[] args) {
+		Parser p =new Parser();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -130,7 +132,7 @@ public class UserInterface {
 			        desktop.open(file);
 			        notify=new JFrame();
 			        notify.setAlwaysOnTop(true);
-			        JOptionPane.showMessageDialog(notify, "Rules design!");
+			        JOptionPane.showMessageDialog(notify, "Welcome to ");
 			          }catch(IOException  ex){
 			              ex.printStackTrace();
 					}

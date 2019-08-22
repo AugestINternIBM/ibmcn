@@ -43,7 +43,6 @@ public class ExcelParser {
 			workbook = new XSSFWorkbook(fileInputStream);
 
 			numberOfSheets = workbook.getNumberOfSheets();
-			System.out.println(numberOfSheets);
 
 			// looping over each workbook sheet
 			for (int i = 0; i < numberOfSheets; i++) {
@@ -62,7 +61,6 @@ public class ExcelParser {
 					this.row = (Row) this.rowIterator.next();
 					String[] rowContent = new String[4];
 					for(int k=0 ; k<colNum ; k++) {
-						System.out.println(row.getCell(k));
 						if (row.getCell(k)==null){
 							rowContent[k] = "null";
 						} else {
@@ -70,7 +68,6 @@ public class ExcelParser {
 						}
 					}
 					myList.add(rowContent);
-					System.out.println("Array Added!!");
 				}
 			}
 

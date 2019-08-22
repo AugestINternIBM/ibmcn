@@ -39,12 +39,12 @@ public class Parser {
 
     private Map<String, Feedback> feedbackMap = new HashMap<String, Feedback>();
 
-    private ArrayList<FilterRule> filtersArr = new ArrayList<>(); 
+    private FilterEngine fe= new FilterEngine();
+    private ArrayList<FilterRule> filtersArr = fe.rulesList; 
 
     public List getContractListFromExcel(String FILE_PATH , Map<String, Feedback> feedbackMap) {
 
         this.feedbackMap = feedbackMap;
-        initFiltersArr();
 
         try {
             this.fileInputStream = new FileInputStream(FILE_PATH);
@@ -92,20 +92,12 @@ public class Parser {
             }
         }
     }
-//TODO: add function to fill the filters array
-    private void initFiltersArr(){
-    	
-//        this.filtersArr[0] = new FilterRule("Div Code", "equal", true,new ArrayList<String>(Arrays.asList("7H", "K4", "7G", "8E")));
-//        this.filtersArr[1] = new FilterRule("OppName", "contain", false,new ArrayList<String>(Arrays.asList("sales order")));
-//        this.filtersArr[2] = new FilterRule("SignProbability", "equal", true,new ArrayList<String>(Arrays.asList("1.0")));
-//        this.filtersArr[3] = new FilterRule("IMT", "equal", true,new ArrayList<String>(Arrays.asList("MEA")));
-//        this.filtersArr[4] = new FilterRule("AccountID", "equal", false,new ArrayList<String>(Arrays.asList("TBD")));
-//        this.filtersArr[5] = new FilterRule("Backlog", "contain", false,new ArrayList<String>());
-//        this.filtersArr[6] = new FilterRule("Country", "contain", false,new ArrayList<String>());
-//        this.filtersArr[7] = new FilterRule("TCV", "contain", false,new ArrayList<String>());
-    }
     
-    private boolean contains(String[] filtervals, String v, String operation){
+    public ArrayList<FilterRule> getFiltersArr() {
+		return filtersArr;
+	}
+
+	private boolean contains(String[] filtervals, String v, String operation){
         if (operation == "equal"){
             for (int i = 0; i < filtervals.length; i++) {
                 if (filtervals[i].equals(v))

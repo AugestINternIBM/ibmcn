@@ -72,8 +72,9 @@ public class Read_And_Update_Notifications {
 	}
 	
 	public void update_file(Notification[] notifications) {
-		
+//		System.out.println(notifications.length + " hnaaa");
 		for(int i=0;i<notifications.length;i++) {
+//			System.out.println(notifications[i].getTarget() + " hnaaa aly t7t");
 			if (!notifications[i].getTarget().equals("")) {
 				if(numOfNotificationMap.get(notifications[i].getAccountId()) != null) {
 					

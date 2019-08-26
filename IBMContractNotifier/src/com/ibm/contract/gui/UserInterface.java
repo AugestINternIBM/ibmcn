@@ -137,7 +137,8 @@ public class UserInterface {
 			        		+ "2) Choose Comparison Type whether comparing the filter values are \"equal\" the value in forcast file, or comparing whether the forcast file values \"contain\" the filter values. \n"
 			        		+ "3) Enter Values which the filter will use to filter the forcast values to include or exclude, the values are to be separted by a comma. \n"
 			        		+ "4) Choose Include state whether to \"include\" or \"exclude\" forcast records with values indicated in values section. \n"
-			        		+ "5) Save the Exel sheet and close it.");
+			        		+ "5) To change the sender email or password, enter the config sheet in the exel workbook and change corresponding cells. \n"
+			        		+ "6) Save the Exel sheet and close it.");
 			        File file = new File("FilterRules.xlsx");
 			        Desktop desktop = Desktop.getDesktop();
 			        desktop.open(file);

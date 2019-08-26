@@ -105,8 +105,8 @@ public class ClientApplication {
 		writeResultToFile(output,outPutFilePath);
 		for (int i = 0; i < output.length; i++) {
 			if (!output[i].getTarget().equals("")) {
-//				javaEmail.createEmailMessage(output[i]);
-//				javaEmail.sendEmail();
+				javaEmail.createEmailMessage(output[i]);
+				javaEmail.sendEmail();
 			System.out.println(output[i].getTarget());
 			System.out.println(output[i].getCc());
 			System.out.println(output[i].getTopic());

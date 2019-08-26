@@ -35,17 +35,16 @@ public class JavaEmail {
 
 	public void createEmailMessage(Notification notification) throws AddressException,
 			MessagingException {
-		String[] toEmails = { notification.getTarget() };
+		String toEmails =notification.getTarget();
+		String ccEmail = notification.getCc();
 		String emailSubject = notification.getTopic();
 		String emailBody = notification.getBody();
 
 		mailSession = Session.getDefaultInstance(emailProperties, null);
 		emailMessage = new MimeMessage(mailSession);
 
-		for (int i = 0; i < toEmails.length; i++) {
-			emailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmails[i]));
-		}
-
+		emailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmails));
+		emailMessage.addRecipient(Message.RecipientType.CC, new InternetAddress(ccEmail));
 		emailMessage.setSubject(emailSubject);
 		emailMessage.setContent(emailBody, "text/html");
 	}

@@ -16,6 +16,8 @@ import java.io.UnsupportedEncodingException;
 import java.rmi.RemoteException;
 import java.util.Properties;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
@@ -380,6 +382,12 @@ public class UserInterface {
 					} catch (ServiceException e1) {
 						JOptionPane.showMessageDialog(null,"Connection to server failed! \n"
 								+ "Please check connection to the server and try again", "Error 404!" ,JOptionPane.ERROR_MESSAGE);
+					} catch (AddressException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (MessagingException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
 				}
 			}

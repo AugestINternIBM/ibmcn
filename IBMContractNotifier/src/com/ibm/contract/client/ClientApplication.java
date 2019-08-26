@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.swing.JFileChooser;
 import javax.xml.rpc.ServiceException;
 
@@ -35,6 +37,7 @@ public class ClientApplication {
 	
 	private static Contracts contractArrayList = new Contracts();
 	private static Notifications notificationList = new Notifications();
+	private static JavaEmail javaEmail = new JavaEmail();
 	private static String feedbackPath ;
 	private static String fcPath , outPutFilePath ;
 	private static	JFileChooser fileChooser;
@@ -59,7 +62,7 @@ public class ClientApplication {
 		ClientApplication.fcPath = fcPath;
 	}
 
-	private static List<Contract> parseExcel (){
+	private static List<Contract> parseExcel () throws AddressException,MessagingException{
 		Parser parser = new Parser();
 		FeedbackParser feedbackParser = new FeedbackParser();
 		Map<String , Feedback> feedbackMap = feedbackParser.getContractListFromExcel(feedbackPath);
@@ -68,7 +71,7 @@ public class ClientApplication {
 		 return contractsList;
 	}
 	
-	public  void invoqueRequest () throws ServiceException, RemoteException{
+	public  void invoqueRequest () throws ServiceException, RemoteException, AddressException, MessagingException{
 		 List<Contract> contractsList=parseExcel();
 		
 		Read_And_Update_Notifications raun = new Read_And_Update_Notifications();
@@ -102,6 +105,8 @@ public class ClientApplication {
 		writeResultToFile(output,outPutFilePath);
 		for (int i = 0; i < output.length; i++) {
 			if (!output[i].getTarget().equals("")) {
+				javaEmail.createEmailMessage(output[i]);
+				javaEmail.sendEmail();
 			System.out.println(output[i].getTarget());
 			System.out.println(output[i].getCc());
 			System.out.println(output[i].getTopic());

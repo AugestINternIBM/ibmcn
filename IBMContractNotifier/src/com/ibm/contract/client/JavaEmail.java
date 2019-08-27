@@ -9,6 +9,8 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import com.ibm.contract.parser.ExcelParser;
 import com.ibm.www.rules.decisionservice.ContractRulesDeployment.ContractOperation.Notification;
 
 public class JavaEmail {
@@ -16,6 +18,7 @@ public class JavaEmail {
 	Properties emailProperties;
 	Session mailSession;
 	MimeMessage emailMessage;
+	ExcelParser ep= new ExcelParser();
 
 	public JavaEmail (){
 		setMailServerProperties();
@@ -51,6 +54,8 @@ public class JavaEmail {
 
 	public void sendEmail() throws AddressException, MessagingException {
 
+		String email= ep.email;
+		String Password= ep.password;
 		String emailHost = "smtp.gmail.com";
 		String fromUser = "ibmcnsender";//just the id alone without @gmail.com
 		String fromUserEmailPassword = "135791113M";

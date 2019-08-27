@@ -1,9 +1,5 @@
 package com.ibm.contract.parser;
 
-import java.util.ArrayList;
-
-import com.ibm.www.rules.decisionservice.ContractRulesDeployment.ContractOperation.param.Contracts;
-
 public class Filter {
 			String field_name;
 			String comparison_type;

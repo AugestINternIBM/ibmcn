@@ -15,22 +15,22 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class FeedbackParser {
-	
+
 	private FileInputStream fileInputStream;
 	private Workbook workbook;
 	private int numberOfSheets;
 	private Sheet sheet;
 	private Row row;
 	private Cell cell;
-	
+
 	private Iterator rowIterator;
 	private Iterator cellIterator;
-	
+
 	private Map<String, Feedback> feedbackMap = new HashMap<String, Feedback>();
-	
+
 	private Map<String, Integer> columnsHeaderMap = new HashMap<String, Integer>();
 	private int colNum;
-	
+
 	public Map getContractListFromExcel(String FILE_PATH) {
 
 		try {
@@ -58,29 +58,35 @@ public class FeedbackParser {
 
 					// TODO : check count
 					if (this.row.getCell(this.columnsHeaderMap.get("Project")) == null) {
-						
+
 					} else {
-						if(this.feedbackMap.containsKey(this.row.getCell(this.columnsHeaderMap.get("Project")).toString())) {
-							Feedback feedback = this.feedbackMap.get(this.row.getCell(this.columnsHeaderMap.get("Project")).toString());
+						if (this.feedbackMap
+								.containsKey(this.row.getCell(this.columnsHeaderMap.get("Project")).toString())) {
+							Feedback feedback = this.feedbackMap
+									.get(this.row.getCell(this.columnsHeaderMap.get("Project")).toString());
 							feedback.setNo_of_feedbacks(feedback.getNo_of_feedbacks() + 1);
-							this.feedbackMap.put(this.row.getCell(this.columnsHeaderMap.get("Project")).toString(), feedback);
-						}else {
+							this.feedbackMap.put(this.row.getCell(this.columnsHeaderMap.get("Project")).toString(),
+									feedback);
+						} else {
 							Feedback feedback = new Feedback();
 							feedback.setNo_of_feedbacks(1);
-							
-							if(this.row.getCell(this.columnsHeaderMap.get("Project Name")) == null){
+
+							if (this.row.getCell(this.columnsHeaderMap.get("Project Name")) == null) {
 								feedback.setProject_name("");
-							}else{
-								feedback.setProject_name(this.row.getCell(this.columnsHeaderMap.get("Project Name")).toString());
+							} else {
+								feedback.setProject_name(
+										this.row.getCell(this.columnsHeaderMap.get("Project Name")).toString());
 							}
-							
-							if(this.row.getCell(this.columnsHeaderMap.get("Run Description")) == null){
+
+							if (this.row.getCell(this.columnsHeaderMap.get("Run Description")) == null) {
 								feedback.setProject_description("");
-							}else{
-								feedback.setProject_description(this.row.getCell(this.columnsHeaderMap.get("Run Description")).toString());
+							} else {
+								feedback.setProject_description(
+										this.row.getCell(this.columnsHeaderMap.get("Run Description")).toString());
 							}
-							
-							this.feedbackMap.put(this.row.getCell(this.columnsHeaderMap.get("Project")).toString(), feedback);
+
+							this.feedbackMap.put(this.row.getCell(this.columnsHeaderMap.get("Project")).toString(),
+									feedback);
 						}
 					}
 				}

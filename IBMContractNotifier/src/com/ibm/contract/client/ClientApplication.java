@@ -21,7 +21,6 @@ import javax.xml.rpc.ServiceException;
 import com.ibm.contract.parser.Feedback;
 import com.ibm.contract.parser.FeedbackParser;
 import com.ibm.contract.parser.Parser;
-import com.ibm.contract.update.notification.Read_And_Update_Notifications;
 import com.ibm.www.rules.decisionservice.ContractRulesDeployment.ContractOperation.Contract;
 import com.ibm.www.rules.decisionservice.ContractRulesDeployment.ContractOperation.ContractOperationDecisionService_ServiceLocator;
 import com.ibm.www.rules.decisionservice.ContractRulesDeployment.ContractOperation.ContractOperationRequest;
@@ -76,15 +75,12 @@ public class ClientApplication {
 	public void invoqueRequest() throws ServiceException, RemoteException, AddressException, MessagingException {
 		List<Contract> contractsList = parseExcel();
 
-		Read_And_Update_Notifications raun = new Read_And_Update_Notifications();
 		Contract[] input = new Contract[contractsList.size()];
 		Notification[] output = new Notification[input.length];
 		for (int i = 0; i < input.length; i++) {
 			input[i] = contractsList.get(i);
 			output[i] = new Notification(new String(), new String(), new String(), "", "");
 		}
-
-		input = raun.set_no_of_notifications(input);
 
 		contractArrayList.setContracts(input);
 		notificationList.setNotifications(output);
@@ -103,16 +99,11 @@ public class ClientApplication {
 
 		notificationList = response.getNotifications();
 		output = notificationList.getNotifications();
-		raun.update_file(output);
 		writeResultToFile(output, outPutFilePath);
 		for (int i = 0; i < output.length; i++) {
 			if (!output[i].getTarget().equals("")) {
 				javaEmail.createEmailMessage(output[i]);
 				javaEmail.sendEmail();
-				System.out.println(output[i].getTarget());
-				System.out.println(output[i].getCc());
-				System.out.println(output[i].getTopic());
-				System.out.println(output[i].getBody());
 			}
 		}
 	}

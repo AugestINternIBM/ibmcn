@@ -24,12 +24,12 @@ public class ExcelParser {
 	private FileInputStream fileInputStream;
 	private Workbook workbook;
 	private int numberOfSheets;
-	private Sheet sheet;
+	private Sheet sheet, config;
 	private Row row;
 	private Cell cell;
 	
-	private Iterator rowIterator;
-	private Iterator cellIterator;
+	private Iterator rowIterator, rowIterator2;
+	private Iterator cellIterator, cellIterator2;
 	
 	private Map<String, Integer> columnsHeaderMap = new HashMap<String, Integer>();
 	private int colNum;
@@ -49,6 +49,9 @@ public class ExcelParser {
 
 			sheet = workbook.getSheetAt(0);
 			rowIterator = sheet.iterator();
+			
+			config = workbook.getSheetAt(0);
+			rowIterator2 = sheet.iterator();
 
 			// Init header map
 			this.initColumnsHeaderMap();
@@ -70,6 +73,8 @@ public class ExcelParser {
 					}
 					myList.add(rowContent);
 			}
+			sheet = workbook.getSheetAt(0);
+			rowIterator = sheet.iterator();
 			
 
 			this.fileInputStream.close();

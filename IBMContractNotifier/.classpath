@@ -21,5 +21,8 @@
 	<classpathentry kind="lib" path="lib/poi-3.16/poi-ooxml-3.16.jar"/>
 	<classpathentry kind="lib" path="lib/poi-3.16/poi-ooxml-schemas-3.16.jar"/>
 	<classpathentry kind="lib" path="lib/poi-3.16/poi-scratchpad-3.16.jar"/>
+	<classpathentry kind="lib" path="javax.mail.jar"/>
+	<classpathentry kind="lib" path="C:/dev/eclipse/plugins/javax.wsdl_1.6.2.v201012040545.jar"/>
+	<classpathentry kind="lib" path="C:/dev/eclipse/plugins/org.apache.commons.logging_1.1.1.v201101211721.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

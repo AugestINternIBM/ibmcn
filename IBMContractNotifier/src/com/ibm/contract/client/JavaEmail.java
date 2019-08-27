@@ -38,16 +38,17 @@ public class JavaEmail {
 
 	public void createEmailMessage(Notification notification) throws AddressException,
 			MessagingException {
-		String toEmails =notification.getTarget();
-		String ccEmail = notification.getCc();
+		String[] toEmails = notification.getTarget().split(",");
+		String[] ccEmails = notification.getCc().split(",");
 		String emailSubject = notification.getTopic();
 		String emailBody = notification.getBody();
 
 		mailSession = Session.getDefaultInstance(emailProperties, null);
 		emailMessage = new MimeMessage(mailSession);
-
-		emailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmails));
-		emailMessage.addRecipient(Message.RecipientType.CC, new InternetAddress(ccEmail));
+		for (int i = 0; i < toEmails.length; i++)
+			emailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmails[i]));
+		for (int i = 0; i < ccEmails.length; i++)
+			emailMessage.addRecipient(Message.RecipientType.CC, new InternetAddress(ccEmails[i]));
 		emailMessage.setSubject(emailSubject);
 		emailMessage.setContent(emailBody, "text/html");
 	}
@@ -58,6 +59,8 @@ public class JavaEmail {
 		String Password= ep.password;
 		String emailHost = "smtp.gmail.com";
 		String fromUser = "ibmcnsender";//just the id alone without @gmail.com
+		int index = fromUser.indexOf("@");
+		fromUser = fromUser.substring(0, index);
 		String fromUserEmailPassword = "135791113M";
 
 		Transport transport = mailSession.getTransport("smtp");

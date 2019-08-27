@@ -14,13 +14,13 @@ import com.ibm.contract.parser.ExcelParser;
 import com.ibm.www.rules.decisionservice.ContractRulesDeployment.ContractOperation.Notification;
 import com.ibm.www.rules.decisionservice.ContractRulesDeployment.ContractOperation.param.Notifications;
 
-public class JavaEmail {
+public class EmailHandler {
 
 	Properties emailProperties;
 	Session mailSession;
 	MimeMessage emailMessage;
 
-	public JavaEmail() {
+	public EmailHandler() {
 		setMailServerProperties();
 	}
 

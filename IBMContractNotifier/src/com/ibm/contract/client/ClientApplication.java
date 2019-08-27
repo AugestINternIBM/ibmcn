@@ -35,7 +35,7 @@ public class ClientApplication {
 
 	private static Contracts contractArrayList = new Contracts();
 	private static Notifications notificationList = new Notifications();
-	private static JavaEmail javaEmail = new JavaEmail();
+	private static EmailHandler javaEmail = new EmailHandler();
 	private static String feedbackPath;
 	private static String fcPath, outPutFilePath;
 	private static JFileChooser fileChooser;
@@ -106,7 +106,15 @@ public class ClientApplication {
 		output = notificationList.getNotifications().getNotifications();
 		senderEmailID= notificationList.getNotifications().getSenderEmailID();
 		senderEmailPass= notificationList.getNotifications().getSenderEmailPassword();
+
+		// Write to text file. Comment out if not needed
 		writeResultToFile(output, outPutFilePath);
+		
+		// Send emails. Comment out if not needed
+		sendEmails(output);
+	}
+
+	private void sendEmails(Notification[] output) throws AddressException, MessagingException {
 		for (int i = 0; i < output.length; i++) {
 			if (!output[i].getTarget().equals("")) {
 				javaEmail.createEmailMessage(output[i], senderEmailID, senderEmailPass);

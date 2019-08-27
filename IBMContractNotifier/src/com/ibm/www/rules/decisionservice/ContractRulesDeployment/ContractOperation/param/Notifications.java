@@ -8,13 +8,13 @@
 package com.ibm.www.rules.decisionservice.ContractRulesDeployment.ContractOperation.param;
 
 public class Notifications  implements java.io.Serializable {
-    private com.ibm.www.rules.decisionservice.ContractRulesDeployment.ContractOperation.Notification[] notifications;
+    private com.ibm.www.rules.decisionservice.ContractRulesDeployment.ContractOperation.NotificationList notifications;
 
     public Notifications() {
     }
 
     public Notifications(
-           com.ibm.www.rules.decisionservice.ContractRulesDeployment.ContractOperation.Notification[] notifications) {
+           com.ibm.www.rules.decisionservice.ContractRulesDeployment.ContractOperation.NotificationList notifications) {
            this.notifications = notifications;
     }
 
@@ -24,7 +24,7 @@ public class Notifications  implements java.io.Serializable {
      * 
      * @return notifications
      */
-    public com.ibm.www.rules.decisionservice.ContractRulesDeployment.ContractOperation.Notification[] getNotifications() {
+    public com.ibm.www.rules.decisionservice.ContractRulesDeployment.ContractOperation.NotificationList getNotifications() {
         return notifications;
     }
 
@@ -34,7 +34,7 @@ public class Notifications  implements java.io.Serializable {
      * 
      * @param notifications
      */
-    public void setNotifications(com.ibm.www.rules.decisionservice.ContractRulesDeployment.ContractOperation.Notification[] notifications) {
+    public void setNotifications(com.ibm.www.rules.decisionservice.ContractRulesDeployment.ContractOperation.NotificationList notifications) {
         this.notifications = notifications;
     }
 
@@ -52,7 +52,7 @@ public class Notifications  implements java.io.Serializable {
         _equals = true && 
             ((this.notifications==null && other.getNotifications()==null) || 
              (this.notifications!=null &&
-              java.util.Arrays.equals(this.notifications, other.getNotifications())));
+              this.notifications.equals(other.getNotifications())));
         __equalsCalc = null;
         return _equals;
     }
@@ -65,15 +65,7 @@ public class Notifications  implements java.io.Serializable {
         __hashCodeCalc = true;
         int _hashCode = 1;
         if (getNotifications() != null) {
-            for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getNotifications());
-                 i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getNotifications(), i);
-                if (obj != null &&
-                    !obj.getClass().isArray()) {
-                    _hashCode += obj.hashCode();
-                }
-            }
+            _hashCode += getNotifications().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -88,9 +80,8 @@ public class Notifications  implements java.io.Serializable {
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("notifications");
         elemField.setXmlName(new javax.xml.namespace.QName("", "Notifications"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.ibm.com/rules/decisionservice/ContractRulesDeployment/ContractOperation", "notification"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.ibm.com/rules/decisionservice/ContractRulesDeployment/ContractOperation", "notificationList"));
         elemField.setNillable(false);
-        elemField.setItemQName(new javax.xml.namespace.QName("", "notifications"));
         typeDesc.addFieldDesc(elemField);
     }
 

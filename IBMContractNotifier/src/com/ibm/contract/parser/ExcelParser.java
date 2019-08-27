@@ -23,7 +23,7 @@ public class ExcelParser {
 	private FileInputStream fileInputStream;
 	private Workbook workbook;
 	private int numberOfSheets;
-	private Sheet sheet, config;
+	private Sheet sheet;
 	private Row row;
 	private Cell cell;
 	private Iterator rowIterator;
@@ -32,9 +32,6 @@ public class ExcelParser {
 	private int colNum;
 
 	ArrayList<String[]> myList = new ArrayList<String[]>();
-	
-	public static String email;
-	public static String password;
 
 	public void parse(String FILE_PATH) {
 		try {
@@ -47,8 +44,6 @@ public class ExcelParser {
 
 			sheet = workbook.getSheetAt(0);
 			rowIterator = sheet.iterator();
-
-			config = workbook.getSheetAt(1);
 
 			// Init header map
 			this.initColumnsHeaderMap();
@@ -70,9 +65,6 @@ public class ExcelParser {
 				}
 				myList.add(rowContent);
 			}
-			
-			email = config.getRow(0).getCell(1).toString();
-			password = config.getRow(1).getCell(1).toString();
 
 			this.fileInputStream.close();
 

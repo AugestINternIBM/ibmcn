@@ -12,13 +12,13 @@ import javax.mail.internet.MimeMessage;
 
 import com.ibm.contract.parser.ExcelParser;
 import com.ibm.www.rules.decisionservice.ContractRulesDeployment.ContractOperation.Notification;
+import com.ibm.www.rules.decisionservice.ContractRulesDeployment.ContractOperation.param.Notifications;
 
 public class JavaEmail {
 
 	Properties emailProperties;
 	Session mailSession;
 	MimeMessage emailMessage;
-	ExcelParser ep = new ExcelParser();
 
 	public JavaEmail() {
 		setMailServerProperties();
@@ -36,7 +36,7 @@ public class JavaEmail {
 
 	}
 
-	public void createEmailMessage(Notification notification) throws AddressException, MessagingException {
+	public void createEmailMessage(Notification notification, String senderMail, String senderPass) throws AddressException, MessagingException {
 		String[] toEmails = notification.getTarget().split(",");
 		String[] ccEmails = notification.getCc().split(",");
 		String emailSubject = notification.getTopic();
@@ -50,15 +50,16 @@ public class JavaEmail {
 			emailMessage.addRecipient(Message.RecipientType.CC, new InternetAddress(ccEmails[i]));
 		emailMessage.setSubject(emailSubject);
 		emailMessage.setContent(emailBody, "text/html");
+		sendEmail(senderMail, senderPass);
 	}
 
-	public void sendEmail() throws AddressException, MessagingException {
+	public void sendEmail(String senderMail, String senderPass) throws AddressException, MessagingException {
 
 		String emailHost = "smtp.gmail.com";
-		String fromUser = ep.email;
+		String fromUser = senderMail;
 		int index = fromUser.indexOf("@");
 		fromUser = fromUser.substring(0, index);
-		String fromUserEmailPassword = ep.password;
+		String fromUserEmailPassword = senderPass;
 
 		Transport transport = mailSession.getTransport("smtp");
 		transport.connect(emailHost, fromUser, fromUserEmailPassword);

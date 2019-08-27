@@ -2,13 +2,6 @@
   <wsdl:types>
     <xsd:schema xmlns:xom1="http://www.ibm.com/rules/decisionservice/ContractRulesDeployment/ContractOperation" targetNamespace="http://www.ibm.com/rules/decisionservice/ContractRulesDeployment/ContractOperation/param">
       <xsd:import namespace="http://www.ibm.com/rules/decisionservice/ContractRulesDeployment/ContractOperation"/>
-      <xsd:element name="Notifications">
-        <xsd:complexType>
-          <xsd:sequence>
-            <xsd:element name="Notifications" type="xom1:notificationList"/>
-          </xsd:sequence>
-        </xsd:complexType>
-      </xsd:element>
       <xsd:element name="Contracts">
         <xsd:complexType>
           <xsd:sequence>
@@ -16,9 +9,34 @@
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
+      <xsd:element name="Notifications">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="Notifications" type="xom1:notificationList"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
     </xsd:schema>
     <xs:schema xmlns:param="http://www.ibm.com/rules/decisionservice/ContractRulesDeployment/ContractOperation/param" xmlns:tns="http://www.ibm.com/rules/decisionservice/ContractRulesDeployment/ContractOperation" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" targetNamespace="http://www.ibm.com/rules/decisionservice/ContractRulesDeployment/ContractOperation" version="1.0">
       <xsd:import namespace="http://www.ibm.com/rules/decisionservice/ContractRulesDeployment/ContractOperation/param"/>
+
+  <xs:complexType name="notificationList">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="notifications" nillable="true" type="tns:notification"/>
+      <xs:element minOccurs="0" name="senderEmailID" type="xs:string"/>
+      <xs:element minOccurs="0" name="senderEmailPassword" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="notification">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="accountId" type="xs:string"/>
+      <xs:element minOccurs="0" name="body" type="xs:string"/>
+      <xs:element minOccurs="0" name="cc" type="xs:string"/>
+      <xs:element minOccurs="0" name="target" type="xs:string"/>
+      <xs:element minOccurs="0" name="topic" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
 
   <xs:complexType name="contractList">
     <xs:sequence>
@@ -37,22 +55,6 @@
       <xs:element minOccurs="0" name="projectDescription" type="xs:string"/>
       <xs:element minOccurs="0" name="projectName" type="xs:string"/>
       <xs:element name="tcv" type="xs:double"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="notificationList">
-    <xs:sequence>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="notifications" nillable="true" type="tns:notification"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="notification">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="accountId" type="xs:string"/>
-      <xs:element minOccurs="0" name="body" type="xs:string"/>
-      <xs:element minOccurs="0" name="cc" type="xs:string"/>
-      <xs:element minOccurs="0" name="target" type="xs:string"/>
-      <xs:element minOccurs="0" name="topic" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
 <xsd:element name="ContractOperationRequest">
@@ -81,16 +83,16 @@
       </xsd:element>
     </xs:schema>
   </wsdl:types>
-  <wsdl:message name="ContractOperationResponse">
-    <wsdl:part element="dstns:ContractOperationResponse" name="ContractOperationResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="ContractOperationRequest">
     <wsdl:part element="dstns:ContractOperationRequest" name="ContractOperationRequest">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="ContractOperationSoapFault">
     <wsdl:part element="dstns:ContractOperationException" name="fault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ContractOperationResponse">
+    <wsdl:part element="dstns:ContractOperationResponse" name="ContractOperationResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="ContractOperationDecisionService">

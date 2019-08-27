@@ -22,7 +22,7 @@ public class ContractOperationDecisionService_ServiceLocator extends org.apache.
     }
 
     // Use to get a proxy class for ContractRulesDeploymentContractOperationPort
-    private java.lang.String ContractRulesDeploymentContractOperationPort_address ;
+    private java.lang.String ContractRulesDeploymentContractOperationPort_address = "http://localhost:9090/DecisionService/ws/ContractRulesDeployment/contractOperation/v75";
 
     public java.lang.String getContractRulesDeploymentContractOperationPortAddress() {
         return ContractRulesDeploymentContractOperationPort_address;

@@ -131,12 +131,10 @@ public class ContractRulesDeploymentContractOperationBindingStub extends org.apa
 
             qName = new javax.xml.namespace.QName("http://www.ibm.com/rules/decisionservice/ContractRulesDeployment/ContractOperation", "notificationList");
             cachedSerQNames.add(qName);
-            cls = com.ibm.www.rules.decisionservice.ContractRulesDeployment.ContractOperation.Notification[].class;
+            cls = com.ibm.www.rules.decisionservice.ContractRulesDeployment.ContractOperation.NotificationList.class;
             cachedSerClasses.add(cls);
-            qName = new javax.xml.namespace.QName("http://www.ibm.com/rules/decisionservice/ContractRulesDeployment/ContractOperation", "notification");
-            qName2 = new javax.xml.namespace.QName("", "notifications");
-            cachedSerFactories.add(new org.apache.axis.encoding.ser.ArraySerializerFactory(qName, qName2));
-            cachedDeserFactories.add(new org.apache.axis.encoding.ser.ArrayDeserializerFactory());
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
 
     }
 

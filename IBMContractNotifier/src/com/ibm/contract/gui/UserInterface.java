@@ -139,9 +139,8 @@ public class UserInterface {
 									+ "2) Choose Comparison Type whether comparing the filter values are \"equal\" the value in forcast file, or comparing whether the forcast file values \"contain\" the filter values. \n"
 									+ "3) Enter Values which the filter will use to filter the forcast values to include or exclude, the values are to be separted by a comma. \n"
 									+ "4) Choose Include state whether to \"include\" or \"exclude\" forcast records with values indicated in values section. \n"
-									+ "5) To change the sender email or password, enter the config sheet in the exel workbook and change corresponding cells. \n"
-									+ "6) Save the Exel sheet and close it.");
-								   // "7) to unprotect the excel file to edit the fixed cells use the password "Admin". \n"
+									+ "5) Save the Exel sheet and close it.");
+								   // "6) to unprotect the excel file to edit the fixed cells use the password "Admin". \n"
 					File file = new File("FilterRules.xlsx");
 					Desktop desktop = Desktop.getDesktop();
 					desktop.open(file);
@@ -380,11 +379,13 @@ public class UserInterface {
 								"Connection to server failed! \n"
 										+ "Please check connection to the server and try again.",
 								"Error 404!", JOptionPane.ERROR_MESSAGE);
+						e1.printStackTrace();
 					} catch (ServiceException e1) {
 						JOptionPane.showMessageDialog(null,
 								"Connection to server failed! \n"
 										+ "Please check connection to the server and try again",
 								"Error 404!", JOptionPane.ERROR_MESSAGE);
+						e1.printStackTrace();
 					} catch (AddressException e1) {
 						e1.printStackTrace();
 						
@@ -442,7 +443,7 @@ public class UserInterface {
 				try {
 					writer = new PrintWriter("app.config", "UTF-8");
 					writer.println("outputPath=%userprofile%\\documents");
-					writer.println("host=http\\://9.42.1.127\\:9090");
+					writer.println("host=http\\://localhost\\:9090");
 					writer.println("inputPath=%userprofile%\\documents");
 					writer.close();
 				} catch (FileNotFoundException e) {

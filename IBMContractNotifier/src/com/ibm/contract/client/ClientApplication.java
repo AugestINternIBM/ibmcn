@@ -27,6 +27,7 @@ import com.ibm.www.rules.decisionservice.ContractRulesDeployment.ContractOperati
 import com.ibm.www.rules.decisionservice.ContractRulesDeployment.ContractOperation.ContractOperationResponse;
 import com.ibm.www.rules.decisionservice.ContractRulesDeployment.ContractOperation.ContractRulesDeploymentContractOperationBindingStub;
 import com.ibm.www.rules.decisionservice.ContractRulesDeployment.ContractOperation.Notification;
+import com.ibm.www.rules.decisionservice.ContractRulesDeployment.ContractOperation.NotificationList;
 import com.ibm.www.rules.decisionservice.ContractRulesDeployment.ContractOperation.param.Contracts;
 import com.ibm.www.rules.decisionservice.ContractRulesDeployment.ContractOperation.param.Notifications;
 
@@ -38,6 +39,8 @@ public class ClientApplication {
 	private static String feedbackPath;
 	private static String fcPath, outPutFilePath;
 	private static JFileChooser fileChooser;
+	String senderEmailPass;
+	String senderEmailID;
 
 	/**
 	 * @param outPutFilePath
@@ -83,7 +86,9 @@ public class ClientApplication {
 		}
 
 		contractArrayList.setContracts(input);
-		notificationList.setNotifications(output);
+		NotificationList nl= new NotificationList();
+		nl.setNotifications(output);
+		notificationList.setNotifications(nl);
 
 		ContractOperationRequest request = new ContractOperationRequest("1", contractArrayList, notificationList);
 
@@ -98,12 +103,13 @@ public class ClientApplication {
 		response = stub.contractOperation(request);
 
 		notificationList = response.getNotifications();
-		output = notificationList.getNotifications();
+		output = notificationList.getNotifications().getNotifications();
+		senderEmailID= notificationList.getNotifications().getSenderEmailID();
+		senderEmailPass= notificationList.getNotifications().getSenderEmailPassword();
 		writeResultToFile(output, outPutFilePath);
 		for (int i = 0; i < output.length; i++) {
 			if (!output[i].getTarget().equals("")) {
-				javaEmail.createEmailMessage(output[i]);
-				javaEmail.sendEmail();
+				javaEmail.createEmailMessage(output[i], senderEmailID, senderEmailPass);
 			}
 		}
 	}

@@ -54,6 +54,8 @@ public class JavaEmail {
 
 		String emailHost = "smtp.gmail.com";
 		String fromUser = "ibmcnsender";//just the id alone without @gmail.com
+		int index = fromUser.indexOf("@");
+		fromUser = fromUser.substring(0, index);
 		String fromUserEmailPassword = "135791113M";
 
 		Transport transport = mailSession.getTransport("smtp");

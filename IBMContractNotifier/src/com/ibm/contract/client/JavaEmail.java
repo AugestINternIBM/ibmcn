@@ -18,15 +18,15 @@ public class JavaEmail {
 	Properties emailProperties;
 	Session mailSession;
 	MimeMessage emailMessage;
-	ExcelParser ep= new ExcelParser();
+	ExcelParser ep = new ExcelParser();
 
-	public JavaEmail (){
+	public JavaEmail() {
 		setMailServerProperties();
 	}
 
 	public void setMailServerProperties() {
 
-		String emailPort = "587";//gmail's smtp port
+		String emailPort = "587";// gmail's smtp port
 
 		emailProperties = System.getProperties();
 		emailProperties.put("mail.smtp.port", emailPort);
@@ -36,8 +36,7 @@ public class JavaEmail {
 
 	}
 
-	public void createEmailMessage(Notification notification) throws AddressException,
-			MessagingException {
+	public void createEmailMessage(Notification notification) throws AddressException, MessagingException {
 		String[] toEmails = notification.getTarget().split(",");
 		String[] ccEmails = notification.getCc().split(",");
 		String emailSubject = notification.getTopic();
@@ -55,20 +54,17 @@ public class JavaEmail {
 
 	public void sendEmail() throws AddressException, MessagingException {
 
-		String email= ep.email;
-		String Password= ep.password;
 		String emailHost = "smtp.gmail.com";
-		String fromUser = "ibmcnsender";//just the id alone without @gmail.com
+		String fromUser = ep.email;
 		int index = fromUser.indexOf("@");
 		fromUser = fromUser.substring(0, index);
-		String fromUserEmailPassword = "135791113M";
+		String fromUserEmailPassword = ep.password;
 
 		Transport transport = mailSession.getTransport("smtp");
-
 		transport.connect(emailHost, fromUser, fromUserEmailPassword);
 		transport.sendMessage(emailMessage, emailMessage.getAllRecipients());
 		transport.close();
-		System.out.println("Email sent successfully.");
-	}
 	
+	}
+
 }

@@ -387,8 +387,13 @@ public class UserInterface {
 								"Error 404!", JOptionPane.ERROR_MESSAGE);
 					} catch (AddressException e1) {
 						e1.printStackTrace();
+						
 					} catch (MessagingException e1) {
 						e1.printStackTrace();
+						JOptionPane.showMessageDialog(null,
+								"Connection to server failed! \n"
+										+ "Invalid email authentication data!",
+								"Error 404!", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}

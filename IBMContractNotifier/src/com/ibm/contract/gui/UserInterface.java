@@ -319,7 +319,12 @@ public class UserInterface {
 
 		outputButton.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				fileChooser = new JFileChooser(getConfig("outputPath"));
+				// Uncomment this for using a different default path for the output file
+				// fileChooser = new JFileChooser(getConfig("outputPath"));
+				
+				// Uncomment this for using the same default path of the input files for the output file
+				 fileChooser = new JFileChooser(getConfig("inputPath"));
+
 				fileChooser.setFileFilter(txtFilter);
 				returnValue = fileChooser.showOpenDialog(null);
 				if (returnValue == JFileChooser.APPROVE_OPTION) {

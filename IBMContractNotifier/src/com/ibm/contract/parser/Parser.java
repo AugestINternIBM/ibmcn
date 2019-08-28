@@ -19,6 +19,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
+
 public class Parser {
 
     private ArrayList<Contract> contractsList = new ArrayList<Contract>();
@@ -94,14 +96,14 @@ public class Parser {
     }
 
 	private boolean contains(String[] filtervals, String v, String operation){
-        if (operation == "equal"){
+        if (operation.equals("equal")){
             for (int i = 0; i < filtervals.length; i++) {
                 if (filtervals[i].equals(v))
                     return true;
             }
-        } else {
+        } else if (operation.equals("contain")){
             for (int i = 0; i < filtervals.length; i++) {
-                if (filtervals[i].contains(v))
+                if (v.contains(filtervals[i]))
                     return true;
             }
         }
@@ -133,8 +135,8 @@ public class Parser {
         	try{
                 val = this.row.getCell(this.columnsHeaderMap.get(filtersArr.get(i).field_name));
         	} catch (Exception e){
-        		System.out.println("Column with field name  "  + filtersArr.get(i).field_name +" not found" );
-        		System.exit(0);
+        		JOptionPane.showMessageDialog(null, "Column with field name  "  + filtersArr.get(i).field_name +" not found!",
+						"Error 404!", JOptionPane.ERROR_MESSAGE);
         	}
             if (val == null || val.toString() == "" || val.toString() == "NULL") {
                 return false;

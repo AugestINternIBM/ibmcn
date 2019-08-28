@@ -34,7 +34,6 @@ public class FeedbackParser {
 	public Map getContractListFromExcel(String FILE_PATH) {
 
 		try {
-			System.out.println(FILE_PATH);
 			this.fileInputStream = new FileInputStream(FILE_PATH);
 
 			// Using XSSF for xlsx format, for xls use HSSF
@@ -56,7 +55,6 @@ public class FeedbackParser {
 
 					this.row = (Row) this.rowIterator.next();
 
-					// TODO : check count
 					if (this.row.getCell(this.columnsHeaderMap.get("Project")) == null) {
 
 					} else {
